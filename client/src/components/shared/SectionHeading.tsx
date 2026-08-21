@@ -1,0 +1,3 @@
+/** Style: «دفتر الحيّ» — editorial headings, breathing room, and a small local marker. */
+type SectionHeadingProps = { eyebrow: string; title: string; description?: string; align?: "right" | "center" };
+export function SectionHeading({ eyebrow, title, description, align = "right" }: SectionHeadingProps) { return <div className={`section-heading ${align === "center" ? "section-heading-center" : ""}`}><p className="eyebrow"><span className="brand-marker" aria-hidden="true"><i /></span> {eyebrow}</p><h2>{title}</h2><span className="distance-rule" aria-hidden="true"><i /></span>{description && <p className="section-description">{description}</p>}</div>; }

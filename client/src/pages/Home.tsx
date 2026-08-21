@@ -1,25 +1,26 @@
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+/** Style: «دفتر الحيّ» — an Arabic editorial journey from nearby possibility to concrete action. */
+import { ArrowLeft, BadgeCheck, BellRing, BriefcaseBusiness, MapPinned, ShieldCheck } from "lucide-react";
+import { toast } from "sonner";
+import { BottomNav } from "@/components/navigation/BottomNav";
+import { TopNav } from "@/components/layout/TopNav";
+import { JobCard } from "@/components/cards/JobCard";
+import { SectionHeading } from "@/components/shared/SectionHeading";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Best Practices, Design Guide and Common Pitfalls
- */
+const categories = [
+  { name: "المتاجر", count: "٢٤ فرصة", image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=720&q=85" },
+  { name: "المقاهي", count: "١٨ فرصة", image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=720&q=85" },
+  { name: "الفعاليات", count: "١٢ فرصة", image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=720&q=85" },
+  { name: "التوصيل", count: "٩ فرص", image: "https://images.unsplash.com/photo-1494412651409-8963ce7935a7?auto=format&fit=crop&w=720&q=85" },
+];
+
 export default function Home() {
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
-
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
-    </div>
-  );
+  const announcePlaceholder = (label: string) => toast.info(`${label} ستكون متاحة قريباً`, { description: "هذه الواجهة جزء من المرحلة الأولى من بريكولي." });
+  return <div className="page-shell min-h-screen" id="home"><TopNav onPlaceholder={announcePlaceholder} /><main>
+    <section className="hero-grid" aria-labelledby="hero-title"><div className="hero-copy"><p className="eyebrow"><MapPinned size={14} /> فرص من قلب الحيّ</p><h1 id="hero-title">اعثر على فرصة <em>قريبة منك</em> خلال دقائق</h1><p className="hero-subtitle">بريكولي يقرّب أصحاب الأعمال المحليين من الشباب المستعدين للعمل، بفرص قصيرة وواضحة في الأماكن التي تعرفها.</p><div className="hero-actions"><button type="button" className="primary-cta" onClick={() => announcePlaceholder("البدء")}>ابدأ الآن <ArrowLeft size={18} /></button><button type="button" className="secondary-cta" onClick={() => announcePlaceholder("نشر مهمة")}><BriefcaseBusiness size={18} /> نشر مهمة</button></div><p className="hero-note"><i /> منصة تقنية تربطك بالفرصة؛ العمل يتم مباشرة بينك وبين صاحب المهمة.</p></div><div className="hero-visual" aria-label="فرصة محلية في متجر قريب"><div className="hero-photo-frame"><img src="/manus-storage/brikouli-hero-local-gig_63b3860c.jpg" alt="شابّة تعمل في متجر محلي مضيء" /><div className="hero-photo-label"><span>اليوم في حيّك</span><strong>فرص صغيرة، أثر كبير.</strong></div></div><div className="float-job"><div className="float-job-top"><b>مساعدة في متجر هدايا</b><span className="badge badge-urgent">عاجلة</span></div><div className="tiny-line" /><div className="flex items-end justify-between"><div><p>يبعد عنك</p><strong>٨ دقائق</strong></div><div><p>المقابل</p><strong className="text-brand-green">٥٠ ر.س</strong></div></div></div></div></section>
+    <section id="how-it-works" className="section-tint"><div className="content-section"><SectionHeading eyebrow="خطوات بسيطة" title="كيف تبدأ؟" description="لا نماذج طويلة ولا تعقيد. اختر ما يناسب وقتك، وتواصل بوضوح عندما تصبح الخدمة متاحة." /><div className="how-grid">{[{ n: "٠١", title: "استكشف الفرص", text: "تصفّح مهام قصيرة من متاجر ومقاهٍ وفعاليات قريبة." }, { n: "٠٢", title: "اختر ما يناسبك", text: "راجع الوقت والمقابل والمسافة في بطاقة واضحة ومختصرة." }, { n: "٠٣", title: "ابدأ بثقة", text: "تواصل مباشرة عند إطلاق الخدمة، وابدأ يومك بخطوة مفيدة." }].map((step) => <article className="how-card" key={step.n}><span className="number-tag">{step.n}</span><h3>{step.title}</h3><p>{step.text}</p></article>)}</div></div></section>
+    <section id="categories" className="content-section"><SectionHeading eyebrow="فرص متنوعة" title="وش تحب تشتغل اليوم؟" description="استكشف المجالات الشائعة، ثم دع وقتك ومهارتك يقودانك إلى فرصة قريبة." /><div className="category-wrap"><div className="category-scroller">{categories.map((category) => <button key={category.name} type="button" className="category-card text-right" onClick={() => announcePlaceholder(category.name)}><img src={category.image} alt="" /><span className="category-card-content"><span>{category.count}</span><h3>{category.name}</h3></span></button>)}</div></div></section>
+    <section className="section-tint" aria-labelledby="jobs-title"><div className="content-section"><SectionHeading eyebrow="نظرة أولى" title="فرص اليوم، بشكل أوضح" description="هذه أمثلة مرئية لشكل بطاقات المهام في بريكولي. ستُربط ببيانات آمنة في مرحلة لاحقة." /><div className="job-showcase" id="jobs-title"><div className="job-stack"><JobCard title="ترتيب رفوف متجر" business="متجر مَداد للأدوات" initials="مـ" category="المتاجر" distance="١٫٢ كم" payment="٦٠ ر.س" duration="٤ ساعات" urgent verified onAction={() => announcePlaceholder("تفاصيل المهمة")} /><JobCard title="مساعدة في تجهيز فعالية" business="مساحة الحيّ" initials="حـ" category="الفعاليات" distance="٢٫٨ كم" payment="٨٠ ر.س" duration="٥ ساعات" verified onAction={() => announcePlaceholder("تفاصيل المهمة")} /></div></div></div></section>
+    <section id="benefits" className="content-section"><SectionHeading eyebrow="لماذا بريكولي؟" title="مصمم للفرص التي تحدث حولك" description="هيكل بسيط يوصل الحاجة بالوقت المتاح، مع مساحة للتوسع المسؤول في المراحل القادمة." /><div className="benefit-grid"><article className="benefit-card"><div className="benefit-card-icon"><MapPinned size={22} /></div><h3>أقرب مما تتوقع</h3><p>المسافة عنصر أساسي في عرض الفرصة، لأن الوقت جزء من قيمتها.</p></article><article className="benefit-card"><div className="benefit-card-icon"><BadgeCheck size={22} /></div><h3>تفاصيل بلا لفّ</h3><p>المقابل والمدة والتصنيف ظاهرة من البداية لمساعدة قرارك بسرعة.</p></article><article className="benefit-card"><div className="benefit-card-icon"><ShieldCheck size={22} /></div><h3>أساس آمن للتوسع</h3><p>تهيئة فصل الخدمات والبيانات تدعم بناء خصائص الحماية والتحقق لاحقاً.</p></article></div></section>
+    <section className="local-callout"><div className="callout-inner"><img src="/manus-storage/brikouli-opportunities-market_6514a602.jpg" alt="فرصة عمل في متجر محلي" /><div className="callout-copy"><p className="eyebrow text-emerald-200"><span className="brand-marker brand-marker-light" aria-hidden="true"><i /></span> قريباً في حيّك</p><h2>وقتك له قيمة محلية.</h2><p>سواء كنت تبحث عن بداية مرنة أو تحتاج مساعدة في متجرك، بريكولي يبني الطريق الأقصر بينكما.</p><button type="button" className="secondary-cta" onClick={() => announcePlaceholder("إشعار الإطلاق")}><BellRing size={18} /> نبّهني عند الإطلاق</button></div></div></section>
+  </main><footer className="footer"><div className="footer-inner"><p className="footer-note">© ٢٠٢٦ بريكولي. منصة تقنية للفرص المحلية.</p><div className="footer-links"><a href="#privacy" onClick={(event) => { event.preventDefault(); announcePlaceholder("الخصوصية"); }}>الخصوصية</a><a href="#terms" onClick={(event) => { event.preventDefault(); announcePlaceholder("الشروط"); }}>الشروط</a><a href="#contact" onClick={(event) => { event.preventDefault(); announcePlaceholder("التواصل"); }}>تواصل معنا</a></div></div></footer><BottomNav onPlaceholder={announcePlaceholder} /></div>;
 }
