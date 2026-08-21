@@ -1,6 +1,7 @@
 /* Style: «دفتر الحيّ» — warm editorial surfaces, local green actions, and confident RTL space. */
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./styles/desktop-header.css";
 
 @custom-variant dark (&:is(.dark *));
 

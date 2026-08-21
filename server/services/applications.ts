@@ -6,6 +6,7 @@ import { isAdmin, isJobSeeker } from "./roles";
 
 export function applicationCreateFailure(errorCode?: string): ApiResult<never> {
   if (errorCode === "23505") return { success: false, code: "APPLICATION_EXISTS", message: "سبق أن تقدمت إلى هذه الفرصة." };
+  if (errorCode === "42501") return { success: false, code: "APPLICATION_NOT_ALLOWED", message: "لا يمكنك التقدم إلى هذه الفرصة حالياً. تأكد من أنها ما زالت متاحة لحسابك." };
   return { success: false, code: "APPLICATION_CREATE_FAILED", message: "تعذر إرسال طلبك." };
 }
 

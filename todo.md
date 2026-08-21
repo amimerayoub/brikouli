@@ -123,3 +123,6 @@
 - [x] Add security headers, accessible confirmation dialogs, server-side safe bulk approval, focused authorization/migration/dialog/header tests, and mobile authentication-frame overflow hardening.
 - [x] Complete Phase 9 architecture/security documentation, security-advisor review, final TypeScript/test/build validation, checkpoint, and delivery.
 - [x] Commit and push the verified Phase 9 final-delivery source state to the confirmed GitHub repository.
+- [ ] Diagnose and resolve the reported Supabase registration failure, then validate the repaired registration path without creating unintended user records.
+- [x] Diagnose and resolve the reported application-submission failure: restore authenticated execution for public RLS policy helpers, validate the live policy path without inserting data, and cover the safe authorization response.
+- [x] Refactor only the desktop Brikouli header at 1024px and above with a centered RTL navigation, aligned logo/action controls, sticky blurred treatment, and no changes to the compact mobile header or backend behavior.
