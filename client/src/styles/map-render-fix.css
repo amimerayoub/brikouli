@@ -1,0 +1,15 @@
+/* Explore MapLibre recovery: a conventional rounded WebGL card with an explicit
+   usable viewport. This override intentionally removes only decorative transforms
+   from the map panel; it leaves the rest of the Explore UI unchanged. */
+.map-workspace{min-height:420px}
+.map-panel,.map-paper-panel{min-height:420px;border-radius:24px!important;overflow:hidden}
+.map-paper-panel:before{transform:none!important}
+.brikouli-map{height:max(420px,55svh);min-height:420px;background:#eaf3ec}
+.brikouli-map .maplibregl-map,.brikouli-map .maplibregl-canvas-container,.brikouli-map canvas{width:100%!important;height:100%!important}
+.map-loading-overlay,.map-error-overlay{z-index:8;gap:10px;padding:20px;text-align:center}
+.map-loading-overlay{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(234,248,238,.93),rgba(220,241,226,.9));color:#176f38}
+.map-error-overlay{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;background:rgba(250,253,250,.94);color:#27563a}
+.map-error-overlay p{margin:0;font-size:14px;font-weight:900}
+.map-error-overlay button{display:inline-flex;min-height:42px;align-items:center;justify-content:center;gap:7px;margin-top:4px;border:1px solid #77bd8e;border-radius:12px;background:#fff;color:#176f38;font:inherit;font-size:12px;font-weight:900}
+.dark .brikouli-map{background:#173829}.dark .map-loading-overlay{background:linear-gradient(135deg,rgba(24,60,43,.96),rgba(18,50,35,.94));color:#a5f0bd}.dark .map-error-overlay{background:rgba(20,52,37,.95);color:#ddfae4}.dark .map-error-overlay button{border-color:#4e9a68;background:#183c2b;color:#cef8d9}
+@media (min-width:760px){.map-workspace{min-height:600px}.map-panel,.map-paper-panel{height:100%;min-height:600px}.brikouli-map{height:100%;min-height:600px}}

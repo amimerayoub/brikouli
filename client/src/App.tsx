@@ -45,6 +45,7 @@ import "./styles/phase3-overrides.css";
 import "./styles/phase4.css";
 import "./styles/phase4-overrides.css";
 import "./styles/phase5.css";
+import "./styles/map-render-fix.css";
 import "./styles/job-seeker.css";
 import "./styles/job-seeker-overrides.css";
 import "./styles/job-seeker-details.css";
