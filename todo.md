@@ -105,3 +105,4 @@
 - [x] Add focused tests for acceptance-gated conversation creation, ownership/RLS isolation, message/media validation, closed-message behavior, Realtime UI state, and RTL mobile composer controls.
 - [x] Verify TypeScript, complete test suite, production build, protected mobile/desktop chat entry views, write Phase 7 documentation, checkpoint, and deliver the implementation.
 - [ ] Capture authenticated employer–job-seeker chat screens at mobile and desktop widths, and verify a live end-to-end Realtime exchange after enabling private Realtime channel enforcement in the Supabase project settings.
+- [x] Run Supabase security-advisor review after the Phase 7 migration and revoke anonymous access from messaging and pre-existing employer security-definer RPCs while preserving authenticated ownership checks.

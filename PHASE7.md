@@ -19,7 +19,7 @@ Phase 7 replaces Brikouli’s placeholder messages surface with a secure, Arabic
 
 ## Data and policy model
 
-The migration `20260821200000_secure_messaging.sql` adds `conversations`, `conversation_members`, `messages`, and `user_blocks`. It also extends report target types to include conversations and messages, indexes list/history paths, adds the `supabase_realtime` publication entries, and contains explicit policies for private Broadcast and Presence topics in the form `conversation:<conversation-id>`.
+The migration `20260821200000_secure_messaging.sql` adds `conversations`, `conversation_members`, `messages`, and `user_blocks`. It also extends report target types to include conversations and messages, indexes list/history paths, adds the `supabase_realtime` publication entries, and contains explicit policies for private Broadcast and Presence topics in the form `conversation:<conversation-id>`. Follow-up migrations `20260821201000_messaging_function_grants.sql` and `20260821202000_revoke_legacy_rpc_public.sql` revoke anonymous execution from every identified security-definer RPC while retaining only authenticated, internally ownership-checked calls.
 
 | Table | Security-relevant responsibility |
 |---|---|
@@ -40,11 +40,11 @@ The application server validates every conversation action again before accessin
 |---|---|
 | Supabase migration | Applied successfully to `erwtygmftpgdtyabawsg`; the four Phase 7 tables were verified to exist. |
 | TypeScript | `pnpm check` passed with zero errors. |
-| Tests | `pnpm test` passed: **37 files and 71 tests**. |
+| Tests | `pnpm test` passed: **37 files and 71 tests** before the final grant-only migration; the final full verification is rerun after this documentation update. |
 | Production build | `pnpm build` passed. The established static-storage resolution notice and MapLibre-sized chunk advisory remain non-blocking. |
 | Focused Phase 7 coverage | Covers non-participant-role denial, closed-conversation read-only enforcement, invalid media rejection before storage, composer controls and typing state, acceptance trigger contract, RLS/Realtime migration boundaries, and protected endpoint contracts. |
 
-The preview environment does not currently contain an Employer profile or accepted application pair, so authenticated two-party visual acceptance and a live Realtime event exchange cannot be captured there without real test accounts. The protected entry experience was reviewed; the server, schema, DOM, and build verification above are complete. A real employer/job-seeker pair should be used once available to confirm the final production Realtime settings prerequisite and end-to-end live exchange.
+The Supabase security advisor was run after the Phase 7 migration. The anonymous callable-function findings for the new messaging functions—and then the identified legacy employer RPCs—were remediated with the explicit grant migrations above. The remaining advisor notices are expected authenticated execution notices for RPCs that perform their own `auth.uid()` ownership checks and a project-level recommendation to enable leaked-password protection. The preview environment does not currently contain an Employer profile or accepted application pair, so authenticated two-party visual acceptance and a live Realtime event exchange cannot be captured there without real test accounts. The protected entry experience was reviewed; the server, schema, DOM, and build verification above are complete. A real employer/job-seeker pair should be used once available to confirm the final production Realtime settings prerequisite and end-to-end live exchange.
 
 ## Key implementation files
 

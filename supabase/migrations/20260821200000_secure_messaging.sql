@@ -163,6 +163,10 @@ grant update (last_read_at, archived_at, hidden_at) on public.conversation_membe
 grant delete on public.user_blocks to authenticated;
 grant execute on function public.close_owned_conversation(uuid) to authenticated;
 grant execute on function public.mark_conversation_read(uuid) to authenticated;
+revoke execute on function public.create_accepted_application_conversation() from public, anon, authenticated;
+revoke execute on function public.touch_conversation_after_message() from public, anon, authenticated;
+revoke execute on function public.close_owned_conversation(uuid) from public, anon;
+revoke execute on function public.mark_conversation_read(uuid) from public, anon;
 
 alter table public.conversations enable row level security;
 alter table public.conversation_members enable row level security;
