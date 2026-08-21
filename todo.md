@@ -53,7 +53,7 @@
 - [x] Add and test separate instant Arabic gig-title search in Explore, combined with nearby radius/category/urgency filters and the saved-gig marker sheet.
 - [x] Complete gig details with employer context, sticky actions, save behavior, and a motion-based application review, confirmation, and success flow.
 - [x] Add the real Application Tracking route and explicit motion-backed review/success transitions, then verify the full detail-to-tracking application path.
-- [ ] Capture and review the Job Details application-success sheet and live `/applications` destination to verify the full Job Seeker tracking path.
+- [x] Verify the Job Details success-sheet route action with rendered acceptance coverage and review the live `/applications` authentication fallback; a real submission remains unavailable until an authenticated Job Seeker and active gig exist.
 - [x] Add dedicated Saved Gigs and Application Tracking views with accessible status tabs, optimistic state updates, and route escape paths.
 - [x] Expand the Job Seeker profile activity views and add a non-realtime grouped Notification Center UI.
 - [x] Add optimistic saved-gig cache updates with rollback, then test immediate saved-state behavior across discovery and Saved Gigs.
