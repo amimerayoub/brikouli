@@ -31,6 +31,15 @@ import EmployerApplicants from "./pages/EmployerApplicants";
 import EmployerApplicantsOverview from "./pages/EmployerApplicantsOverview";
 import EmployerProfile from "./pages/EmployerProfile";
 import EmployerNotifications from "./pages/EmployerNotifications";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminGigs from "./pages/admin/AdminGigs";
+import AdminModeration from "./pages/admin/AdminModeration";
+import AdminReports from "./pages/admin/AdminReports";
+import AdminSponsored from "./pages/admin/AdminSponsored";
+import AdminAnalytics from "./pages/admin/AdminAnalytics";
+import AdminAuditLogs from "./pages/admin/AdminAuditLogs";
+import AdminSecurity from "./pages/admin/AdminSecurity";
 import "./styles/phase3.css";
 import "./styles/phase3-overrides.css";
 import "./styles/phase4.css";
@@ -47,6 +56,8 @@ import "./styles/employer-applicants-overview.css";
 import "./styles/messaging.css";
 import "./styles/messaging-desktop.css";
 import "./styles/trust.css";
+import "./styles/admin.css";
+import "./styles/admin-data.css";
 
 function Router() {
   const [location] = useLocation();
@@ -79,7 +90,15 @@ function Router() {
           <Route path={"/employer/profile"} component={EmployerProfile} />
           <Route path={"/employer/notifications"} component={EmployerNotifications} />
           <Route path={"/employer"} component={EmployerDashboard} />
-          <Route path={"/admin"}>{() => <ProtectedPlaceholder label="منطقة الإدارة" />}</Route>
+          <Route path={"/admin/users"} component={AdminUsers} />
+          <Route path={"/admin/gigs"} component={AdminGigs} />
+          <Route path={"/admin/reports"} component={AdminReports} />
+          <Route path={"/admin/moderation"} component={AdminModeration} />
+          <Route path={"/admin/sponsored"} component={AdminSponsored} />
+          <Route path={"/admin/analytics"} component={AdminAnalytics} />
+          <Route path={"/admin/audit-logs"} component={AdminAuditLogs} />
+          <Route path={"/admin/security"} component={AdminSecurity} />
+          <Route path={"/admin"} component={AdminDashboard} />
           <Route path={"/404"} component={NotFound} />
           <Route component={NotFound} />
         </Switch>

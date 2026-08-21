@@ -90,3 +90,9 @@ Create a project checkpoint, configure the two public Supabase variables in the 
 ## Phase 3 readiness
 
 Phase 3 can add real gig discovery, profile management UI, applications, and storage uploads against the existing authenticated/RLS-protected service boundaries. Maps, chat, employer dashboards, and admin dashboards should remain deferred until their product and moderation requirements are specified.
+
+## Phase 9 Super Admin and operational security
+
+Phase 9 replaces the earlier placeholder assumption with an **isolated, Arabic RTL Super Admin workspace** at `/admin` and its protected child routes. It is implemented within the existing React/Vite/Express/tRPC architecture—not as a separate backend—and is not linked from consumer navigation. Authorization is enforced at the route/interface, verified Supabase session, tRPC/service, database RPC, and RLS layers. An authoritative `profiles.role = 'admin'` and an `active` account status are required for every administrative service call.
+
+The applied Phase 9 migrations add account states, admin moderation state, sponsored-gig records, append-only admin audit records, database-trigger enforcement, indexes, and admin-only RLS/RPC controls. Administrative surfaces cover dashboard statistics, user accounts, gig and safety moderation, reports, sponsorships without payment processing, analytics, audit logs, and security signals. Details, security assumptions, advisor review context, and pre-launch actions are documented in [PHASE9.md](./PHASE9.md) and [docs/SECURITY.md](./docs/SECURITY.md).

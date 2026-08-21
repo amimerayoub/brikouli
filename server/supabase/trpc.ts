@@ -2,6 +2,7 @@ import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import type { TrpcContext } from "../_core/context";
 import { verifyActor } from "../services/supabase";
+import { isAdmin } from "../services/roles";
 
 const t = initTRPC.context<TrpcContext>().create({ transformer: superjson });
 
@@ -10,5 +11,11 @@ export const supabaseProcedure = t.procedure.use(async ({ ctx, next }) => {
   if (!ctx.supabaseAccessToken) throw new TRPCError({ code: "UNAUTHORIZED", message: "يلزم تسجيل الدخول للوصول إلى هذه الخدمة." });
   const actor = await verifyActor(ctx.supabaseAccessToken);
   if (!actor.success) throw new TRPCError({ code: actor.code === "FORBIDDEN" ? "FORBIDDEN" : "UNAUTHORIZED", message: actor.message });
+  if (actor.data.profile.accountStatus && actor.data.profile.accountStatus !== "active") throw new TRPCError({ code: "FORBIDDEN", message: "لا يمكن استخدام الحساب في حالته الحالية." });
   return next({ ctx: { ...ctx, supabaseActor: actor.data } });
+});
+
+export const supabaseAdminProcedure = supabaseProcedure.use(async ({ ctx, next }) => {
+  if (!ctx.supabaseActor || !isAdmin(ctx.supabaseActor)) throw new TRPCError({ code: "FORBIDDEN", message: "لا تملك صلاحية الوصول إلى هذه المنطقة." });
+  return next({ ctx });
 });

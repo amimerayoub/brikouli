@@ -116,3 +116,9 @@
 - [x] Expose the Arabic-safe moderation preview through an authenticated tRPC procedure and consume it in the employer gig creation flow without revealing internal matching rules.
 - [x] Add a reusable end-user "حظر المستخدم" confirmation flow with a clear Arabic warning and protected block mutation, then verify its interaction behavior.
 - [x] Update Phase 8 verification documentation after the moderation/block UI remediation, rerun all checks, save the final checkpoint, and deliver the release while retaining the documented project-level Supabase Auth setting follow-up.
+- [x] Audit roles, RLS, trust data, service boundaries, and the dashboard shell before building the isolated Phase 9 Super Admin system.
+- [x] Add typed administrative contracts, validated schemas, Phase 9 Supabase migrations, private-helper grant hardening, and database-enforced account/admin command boundaries.
+- [x] Implement server-authorized administrative services and tRPC procedures for users, gigs, safety moderation, reports, sponsorships, analytics, audit logs, and security monitoring.
+- [x] Build the isolated Arabic RTL Admin shell and all required desktop/mobile administrative routes without exposing an Admin entry in public navigation.
+- [x] Add security headers, accessible confirmation dialogs, server-side safe bulk approval, focused authorization/migration/dialog/header tests, and mobile authentication-frame overflow hardening.
+- [x] Complete Phase 9 architecture/security documentation, security-advisor review, final TypeScript/test/build validation, checkpoint, and delivery.

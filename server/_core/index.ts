@@ -11,6 +11,7 @@ import { serveStatic, setupVite } from "./vite";
 import { requireProtectedRoute } from "../middleware/routeProtection";
 import { registerSupabaseSessionRoutes } from "../routes/supabaseSession";
 import { registerAuthActionRoutes } from "../routes/authActions";
+import { applySecurityHeaders } from "../middleware/securityHeaders";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -33,7 +34,9 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 
 async function startServer() {
   const app = express();
+  app.disable("x-powered-by");
   const server = createServer(app);
+  app.use(applySecurityHeaders);
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));

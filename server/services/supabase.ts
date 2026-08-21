@@ -28,7 +28,7 @@ function mapProfile(row: Record<string, unknown>): BrikouliProfile {
     id: String(row.id), fullName: String(row.full_name ?? ""), phone: row.phone ? String(row.phone) : null,
     role: String(row.role) as UserRole, city: row.city ? String(row.city) : null,
     neighborhood: row.neighborhood ? String(row.neighborhood) : null, avatarUrl: row.avatar_url ? String(row.avatar_url) : null,
-    rating: Number(row.rating ?? 0), completedJobs: Number(row.completed_jobs ?? 0), acceptedTerms: Boolean(row.accepted_terms),
+    rating: Number(row.rating ?? 0), completedJobs: Number(row.completed_jobs ?? 0), acceptedTerms: Boolean(row.accepted_terms), accountStatus: String(row.account_status ?? "active") as BrikouliProfile["accountStatus"],
     createdAt: String(row.created_at), updatedAt: String(row.updated_at),
   };
 }

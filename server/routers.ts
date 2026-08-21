@@ -13,6 +13,9 @@ import { searchMoroccanLocations } from "./services/locationSearch";
 import { cancelEmployerGig, createEmployerGig, deleteEmployerGig, getEmployerBusinessProfile, getEmployerDashboard, listEmployerApplicants, listEmployerGigs, listEmployerNotifications, reviewEmployerApplication, setEmployerGigPause, updateEmployerBusinessProfileSecure, updateEmployerGig } from "./services/employer";
 import { closeConversation, getConversation, listConversations, markConversationRead, reportConversationContent, sendMediaMessage, sendTextMessage, setUserBlock, updateConversationMember } from "./services/messaging";
 import { supabaseProcedure, supabaseRouter } from "./supabase/trpc";
+import { supabaseAdminProcedure } from "./supabase/trpc";
+import { adminAuditQuerySchema, adminBulkGigActionSchema, adminGigActionSchema, adminGigsQuerySchema, adminReportActionSchema, adminReportsQuerySchema, adminSponsoredActionSchema, adminSponsoredCreateSchema, adminSponsoredQuerySchema, adminUserDetailSchema, adminUsersQuerySchema, adminUserStatusSchema } from "./schemas/domain";
+import { bulkApproveAdminGigs, createAdminSponsored, getAdminAnalytics, getAdminDashboard, getAdminSecurity, getAdminUser, listAdminAudit, listAdminGigs, listAdminReports, listAdminSponsored, listAdminUsers, moderateAdminGig, reviewAdminReport, setAdminSponsoredStatus, setAdminUserStatus } from "./services/admin";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -87,6 +90,16 @@ export const appRouter = router({
     trust: supabaseRouter({ profile: publicProcedure.input(trustProfileSchema).query(({ input }) => getTrustProfile(input)), ratingTargets: supabaseProcedure.input(completionRatingListSchema).query(({ ctx, input }) => listCompletionRatingTargets(ctx.supabaseAccessToken!, input)), submitRating: supabaseProcedure.input(ratingCreateSchema).mutation(({ ctx, input }) => submitRating(ctx.supabaseAccessToken!, input)), completeGig: supabaseProcedure.input(gigCompletionSchema).mutation(({ ctx, input }) => completeGigSecure(ctx.supabaseAccessToken!, input)), moderateGig: supabaseProcedure.input(gigModerationPreviewSchema).query(({ ctx, input }) => getModerationPreview(ctx.supabaseAccessToken!, input)) }),
     reports: supabaseRouter({ create: supabaseProcedure.input(reportCreateSchema).mutation(({ ctx, input }) => createPrivateReport(ctx.supabaseAccessToken!, input)), mine: supabaseProcedure.input(reportListSchema).query(({ ctx, input }) => listMyReports(ctx.supabaseAccessToken!, input)) }),
     blocks: supabaseRouter({ set: supabaseProcedure.input(userBlockSchema.extend({ blocked: z.boolean() })).mutation(({ ctx, input }) => setTrustedBlock(ctx.supabaseAccessToken!, input)), list: supabaseProcedure.input(blockedUserListSchema).query(({ ctx, input }) => listBlockedUsers(ctx.supabaseAccessToken!, input)) }),
+    admin: supabaseRouter({
+      dashboard: supabaseAdminProcedure.query(({ ctx }) => getAdminDashboard(ctx.supabaseAccessToken!)),
+      users: supabaseRouter({ list: supabaseAdminProcedure.input(adminUsersQuerySchema).query(({ ctx, input }) => listAdminUsers(ctx.supabaseAccessToken!, input)), detail: supabaseAdminProcedure.input(adminUserDetailSchema).query(({ ctx, input }) => getAdminUser(ctx.supabaseAccessToken!, input)), setStatus: supabaseAdminProcedure.input(adminUserStatusSchema).mutation(({ ctx, input }) => setAdminUserStatus(ctx.supabaseAccessToken!, input)) }),
+      gigs: supabaseRouter({ list: supabaseAdminProcedure.input(adminGigsQuerySchema).query(({ ctx, input }) => listAdminGigs(ctx.supabaseAccessToken!, input)), moderate: supabaseAdminProcedure.input(adminGigActionSchema).mutation(({ ctx, input }) => moderateAdminGig(ctx.supabaseAccessToken!, input)), bulkApprove: supabaseAdminProcedure.input(adminBulkGigActionSchema).mutation(({ ctx, input }) => bulkApproveAdminGigs(ctx.supabaseAccessToken!, input)) }),
+      reports: supabaseRouter({ list: supabaseAdminProcedure.input(adminReportsQuerySchema).query(({ ctx, input }) => listAdminReports(ctx.supabaseAccessToken!, input)), review: supabaseAdminProcedure.input(adminReportActionSchema).mutation(({ ctx, input }) => reviewAdminReport(ctx.supabaseAccessToken!, input)) }),
+      sponsored: supabaseRouter({ list: supabaseAdminProcedure.input(adminSponsoredQuerySchema).query(({ ctx, input }) => listAdminSponsored(ctx.supabaseAccessToken!, input)), create: supabaseAdminProcedure.input(adminSponsoredCreateSchema).mutation(({ ctx, input }) => createAdminSponsored(ctx.supabaseAccessToken!, input)), setStatus: supabaseAdminProcedure.input(adminSponsoredActionSchema).mutation(({ ctx, input }) => setAdminSponsoredStatus(ctx.supabaseAccessToken!, input)) }),
+      analytics: supabaseAdminProcedure.query(({ ctx }) => getAdminAnalytics(ctx.supabaseAccessToken!)),
+      audit: supabaseAdminProcedure.input(adminAuditQuerySchema).query(({ ctx, input }) => listAdminAudit(ctx.supabaseAccessToken!, input)),
+      security: supabaseAdminProcedure.query(({ ctx }) => getAdminSecurity(ctx.supabaseAccessToken!)),
+    }),
   }),
 });
 
