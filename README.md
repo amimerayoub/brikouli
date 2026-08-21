@@ -1,76 +1,92 @@
 # Brikouli | بريكولي
 
-**Brikouli** is an Arabic-first, mobile-first web foundation for connecting young people with nearby local business owners who need short-term help. This Phase 1 release focuses on a polished public experience, a scalable frontend vocabulary, and safe integration boundaries. It does not include authentication, maps, messaging, employer tooling, administration, or live marketplace data.
+Brikouli is an Arabic-first, mobile-first platform foundation for connecting young people with nearby local business owners who need short-term help. **Phase 2** adds Supabase-backed authentication, PostgreSQL schema migrations, Row Level Security, storage policy preparation, validated service boundaries, and Arabic RTL account flows. Maps, chat, employer-dashboard UI, and admin-dashboard UI remain explicitly out of scope.
 
-## Product principles
+## Phase 2 scope
 
-The public experience is designed in RTL from the outset, with a mobile-native bottom navigation, accessible touch targets, a persistent light/dark preference, and a calm editorial visual system. Brikouli is a technical intermediary only; the Phase 1 interface makes no claims about employing users or processing transactions.
-
-| Area | Phase 1 implementation |
+| Capability | Implementation |
 | --- | --- |
-| Interface | Arabic RTL landing experience with reusable navigation, cards, badges, and actions |
-| Theming | Persisted light/dark UI preference through the installed theme provider |
-| Design system | Brikouli green `#16A34A`, 18px structural radius, soft depth, and premium glass surfaces |
-| Data boundaries | Placeholder service functions under `client/src/lib/api/`; no UI component communicates with SQL |
-| Supabase | Client/server configuration placeholders only; no authentication or database initialization |
-| Maps | Environment-variable preparation only; no rendered maps |
+| Email and password | Premium Arabic RTL login, registration, password-reset, and session-persistence flows backed by Supabase Auth |
+| Phone OTP | Phone-code request and verification UI, ready for a configured Supabase SMS provider |
+| Legal consent | Mandatory Arabic disclaimer modal; acceptance is sent as Auth metadata and saved into the auto-created `profiles` record |
+| PostgreSQL | Applied Supabase migrations for profiles, gigs, applications, ratings, reports, enums, indexes, and timestamps |
+| RLS | Policies protect every marketplace table; authenticated roles are checked both in SQL policies and in server-side helpers |
+| Storage | Private `avatars`, `voice-notes`, and `gig-images` buckets with ownership and gig-relationship policies |
+| Services | Typed Supabase services, Zod validation, standard `{ success, data }` / `{ success, code, message }` responses, and a tRPC boundary |
+| Protected routes | `/dashboard`, `/profile`, `/messages`, `/employer`, and `/admin` redirect unauthenticated users to login and intentionally expose no future dashboard UI |
 
-## Security preparation
+## Architecture
 
-The current static public frontend does not process credentials or access a database. Future request middleware can adopt the security header and CSP directive contract in `client/src/lib/security/headers.ts`. Administrative routes are deliberately absent. This separation keeps user-facing views from holding privileged integration concerns.
-
-## Repository structure
+This managed project runs a React, Vite, Express, and tRPC stack. Supabase is the Phase 2 product identity and marketplace-data provider. The public browser client owns session persistence, while server-side services validate every forwarded bearer token with Supabase before role-sensitive operations. The UI never executes SQL.
 
 ```text
 brikouli/
-├── client/
-│   ├── src/
-│   │   ├── components/      # Branding, cards, layout, navigation, and shared primitives
-│   │   ├── contexts/        # Theme preference provider
-│   │   ├── lib/api/         # Future service contracts
-│   │   ├── lib/supabase/    # Integration configuration placeholders
-│   │   ├── pages/           # Public route composition
-│   │   └── types/           # Shared domain vocabulary
-│   └── index.html           # Arabic language and RTL document declaration
-├── .env.example             # Future public configuration keys
-├── ideas.md                 # Chosen visual direction and design decisions
+├── client/src/
+│   ├── pages/auth/             # Arabic RTL login, registration, reset, OTP, and guards
+│   ├── lib/supabase/           # Browser Auth client
+│   ├── lib/api/                # Browser authentication calls
+│   └── hooks/                  # Session-aware protected-route hook
+├── server/
+│   ├── actions/                # Validated server action contracts
+│   ├── schemas/                # Zod schemas and validation tests
+│   ├── services/               # Server-only Supabase service layer and role helpers
+│   ├── supabase/trpc.ts        # Verified Supabase tRPC procedure
+│   └── *.test.ts               # Connection, RLS, validation, and cookie tests
+├── shared/brikouli.types.ts    # Domain and typed API-result contracts
+├── supabase/
+│   ├── migrations/             # Applied schema, RLS, Storage, and remediation migrations
+│   └── seed.development.json   # Moroccan Arabic development fixture; not auto-imported
 └── README.md
 ```
 
-## Technology stack
+## Supabase configuration
 
-The managed project scaffold provides React 19, TypeScript, Tailwind CSS 4, Lucide icons, Wouter routing, and `next-themes`. The requested Supabase and Mapbox values are documented as future public configuration, without exposing any secret or creating a direct client-to-database path.
+The application expects the following managed environment variables. Configure them through the project secret interface; **never expose or commit a service-role key**.
 
-## Local development
+| Variable | Use |
+| --- | --- |
+| `VITE_SUPABASE_URL` | Public Supabase project URL |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Public publishable key used by the browser Auth client under RLS |
 
-Install the project dependencies and start the development service from the repository root.
+The Phase 2 migrations have been applied to the connected Supabase project. They are retained in `supabase/migrations/` as the source of truth. For another environment, apply the files in chronological order with Supabase migration tooling before enabling the UI.
+
+## Authentication flow
+
+Registration validates the name, email, password, role, and mandatory consent locally and again in server contracts. Supabase Auth creates the identity, and the `auth.users` trigger creates the corresponding profile with the accepted-terms timestamp. Email/password sessions persist through the Supabase browser client. The server does not trust browser profile data: protected tRPC procedures forward the access token and validate it with Supabase before using the RLS-protected profile.
+
+Phone OTP is implemented in the interface and uses Supabase Auth’s phone APIs. Before enabling it publicly, configure an SMS provider and accepted phone regions in the Supabase Dashboard. Configure the final deployment URL as an allowed redirect URL for email recovery and confirmation.
+
+## Security notes
+
+All marketplace tables use RLS. Safe public-profile fields are replicated into a dedicated RLS-protected `public_profiles` projection, rather than exposing private profile fields. Internal policy helpers are held in the non-exposed `private` schema; they are not callable through the public RPC surface. Storage buckets are private by default and are scoped to the current user or gig owner.
+
+Supabase’s last security check reports only that **leaked-password protection is disabled**. Enable this feature in Supabase Auth settings before a public launch, as it is a dashboard-level account setting rather than an application migration.
+
+## Local development and verification
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-For production checking, run the type check and build scripts.
+Run the full verification sequence before a release:
 
 ```bash
 pnpm check
+pnpm test
 pnpm build
 ```
 
-## Environment variables
+The test suite covers the configured Supabase Auth endpoint, anonymous RLS denial for gig creation, safe-profile and active-gig reads, authentication validation, consent validation, OTP payload validation, and the template session-cookie logout behavior.
 
-Copy `.env.example` to your private environment file before enabling external services. Publicly named configuration fields never substitute for secret server credentials.
+## Seed fixture
 
-| Variable | Planned use |
-| --- | --- |
-| `NEXT_PUBLIC_SUPABASE_URL` | Future Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Future public Supabase client key |
-| `NEXT_PUBLIC_MAPBOX_TOKEN` | Future map-rendering token |
+`supabase/seed.development.json` supplies realistic Moroccan Arabic records for a job seeker, an employer, an admin, and three Marrakech-based gig concepts. It is intentionally **not auto-seeded**, because real Auth users must exist first and fixture data must never be inserted into production without review.
 
 ## Deployment
 
-This project is configured as a static managed frontend experience. A production deployment should run the supplied `pnpm build` command and serve the generated static application. Before going live, ensure the production environment has only intended public configuration and that any future private integration credentials remain server-side.
+Create a project checkpoint, configure the two public Supabase variables in the project settings, verify the Supabase Auth redirect URLs, then publish through the Manus interface. This managed repository is build-verified for its React/Vite/Express runtime. A direct Next.js 15/Vercel repository would require a separate runtime conversion; the Supabase SQL migrations and service contracts can be carried forward without re-designing the data model.
 
-## Future roadmap
+## Phase 3 readiness
 
-The next stages can add secure account management, Supabase clients and row-level security, service-backed gig discovery, Mapbox-based locality discovery, applications, messaging, employer management, content moderation, and admin workflows. These capabilities are intentionally absent from Phase 1 so the public foundation remains focused and safe to extend.
+Phase 3 can add real gig discovery, profile management UI, applications, and storage uploads against the existing authenticated/RLS-protected service boundaries. Maps, chat, employer dashboards, and admin dashboards should remain deferred until their product and moderation requirements are specified.

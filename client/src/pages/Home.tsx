@@ -5,6 +5,7 @@ import { BottomNav } from "@/components/navigation/BottomNav";
 import { TopNav } from "@/components/layout/TopNav";
 import { JobCard } from "@/components/cards/JobCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { useLocation } from "wouter";
 
 const categories = [
   { name: "المتاجر", count: "٢٤ فرصة", image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=720&q=85" },
@@ -14,7 +15,8 @@ const categories = [
 ];
 
 export default function Home() {
-  const announcePlaceholder = (label: string) => toast.info(`${label} ستكون متاحة قريباً`, { description: "هذه الواجهة جزء من المرحلة الأولى من بريكولي." });
+  const [, setLocation] = useLocation();
+  const announcePlaceholder = (label: string) => ["ابدأ الآن", "البدء", "نشر مهمة"].includes(label) ? setLocation("/login") : toast.info(`${label} ستكون متاحة قريباً`, { description: "هذه الواجهة جزء من المرحلة الأولى من بريكولي." });
   return <div className="page-shell min-h-screen" id="home"><TopNav onPlaceholder={announcePlaceholder} /><main>
     <section className="hero-grid" aria-labelledby="hero-title"><div className="hero-copy"><p className="eyebrow"><MapPinned size={14} /> فرص من قلب الحيّ</p><h1 id="hero-title">اعثر على فرصة <em>قريبة منك</em> خلال دقائق</h1><p className="hero-subtitle">بريكولي يقرّب أصحاب الأعمال المحليين من الشباب المستعدين للعمل، بفرص قصيرة وواضحة في الأماكن التي تعرفها.</p><div className="hero-actions"><button type="button" className="primary-cta" onClick={() => announcePlaceholder("البدء")}>ابدأ الآن <ArrowLeft size={18} /></button><button type="button" className="secondary-cta" onClick={() => announcePlaceholder("نشر مهمة")}><BriefcaseBusiness size={18} /> نشر مهمة</button></div><p className="hero-note"><i /> منصة تقنية تربطك بالفرصة؛ العمل يتم مباشرة بينك وبين صاحب المهمة.</p></div><div className="hero-visual" aria-label="فرصة محلية في متجر قريب"><div className="hero-photo-frame"><img src="/manus-storage/brikouli-hero-local-gig_63b3860c.jpg" alt="شابّة تعمل في متجر محلي مضيء" /><div className="hero-photo-label"><span>اليوم في حيّك</span><strong>فرص صغيرة، أثر كبير.</strong></div></div><div className="float-job"><div className="float-job-top"><b>مساعدة في متجر هدايا</b><span className="badge badge-urgent">عاجلة</span></div><div className="tiny-line" /><div className="flex items-end justify-between"><div><p>يبعد عنك</p><strong>٨ دقائق</strong></div><div><p>المقابل</p><strong className="text-brand-green">٥٠ ر.س</strong></div></div></div></div></section>
     <section id="how-it-works" className="section-tint"><div className="content-section"><SectionHeading eyebrow="خطوات بسيطة" title="كيف تبدأ؟" description="لا نماذج طويلة ولا تعقيد. اختر ما يناسب وقتك، وتواصل بوضوح عندما تصبح الخدمة متاحة." /><div className="how-grid">{[{ n: "٠١", title: "استكشف الفرص", text: "تصفّح مهام قصيرة من متاجر ومقاهٍ وفعاليات قريبة." }, { n: "٠٢", title: "اختر ما يناسبك", text: "راجع الوقت والمقابل والمسافة في بطاقة واضحة ومختصرة." }, { n: "٠٣", title: "ابدأ بثقة", text: "تواصل مباشرة عند إطلاق الخدمة، وابدأ يومك بخطوة مفيدة." }].map((step) => <article className="how-card" key={step.n}><span className="number-tag">{step.n}</span><h3>{step.title}</h3><p>{step.text}</p></article>)}</div></div></section>

@@ -1,0 +1,15 @@
+{
+  "note": "Development fixture only. Create matching Auth users through Supabase Auth before importing profile-linked records; never run this fixture against production.",
+  "city": "مراكش",
+  "coordinates": { "latitude": 31.6295, "longitude": -7.9811 },
+  "users": [
+    { "role": "job_seeker", "full_name": "سلمى بنعلي", "phone": "+212600000001", "city": "مراكش", "neighborhood": "كيليز" },
+    { "role": "employer", "full_name": "ياسين المريني", "phone": "+212600000002", "city": "مراكش", "neighborhood": "المدينة الجديدة" },
+    { "role": "admin", "full_name": "أمين إدارة بريكولي", "phone": "+212600000003", "city": "مراكش", "neighborhood": "المدينة" }
+  ],
+  "gigs": [
+    { "title": "تنظيم متجر", "description": "ترتيب الرفوف وتجهيز المنتجات قبل فترة المساء.", "category": "المتاجر", "payment": 90, "payment_type": "fixed", "duration": "4 ساعات" },
+    { "title": "استقبال الزبائن", "description": "مساعدة الزبائن وتوجيههم خلال فعالية صغيرة في المحل.", "category": "الضيافة", "payment": 70, "payment_type": "fixed", "duration": "3 ساعات" },
+    { "title": "ترتيب المستودع", "description": "فرز الكراتين وتحديث ترتيب المخزون بطريقة منظمة.", "category": "اللوجستيات", "payment": 110, "payment_type": "fixed", "duration": "5 ساعات" }
+  ]
+}
