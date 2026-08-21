@@ -1,0 +1,1 @@
+{"project_id":"erwtygmftpgdtyabawsg","query":"select table_name from information_schema.tables where table_schema = 'public' and table_name in ('trust_audit_log', 'ratings', 'reports', 'user_blocks') order by table_name limit 10;"}

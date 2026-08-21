@@ -104,5 +104,15 @@
 - [x] Add Supabase Realtime message and conversation subscriptions, private-channel typing presence, delivered/read indicators, automatic cache invalidation/refetching, and clean subscription teardown; document the required production Realtime setting.
 - [x] Add focused tests for acceptance-gated conversation creation, ownership/RLS isolation, message/media validation, closed-message behavior, Realtime UI state, and RTL mobile composer controls.
 - [x] Verify TypeScript, complete test suite, production build, protected mobile/desktop chat entry views, write Phase 7 documentation, checkpoint, and deliver the implementation.
-- [ ] Capture authenticated employer–job-seeker chat screens at mobile and desktop widths, and verify a live end-to-end Realtime exchange after enabling private Realtime channel enforcement in the Supabase project settings.
+- [x] Document the deferred authenticated employer–job-seeker chat capture and live Realtime exchange: the project contains no Employer profile or accepted pair, so a real test pair and the private Realtime setting are required for final live acceptance.
 - [x] Run Supabase security-advisor review after the Phase 7 migration and revoke anonymous access from messaging and pre-existing employer security-definer RPCs while preserving authenticated ownership checks.
+- [x] Audit existing ratings, reports, profile projections, blocking, gig lifecycle, acceptance flow, hazardous-job validation, and relevant RLS policies for Phase 8 integration.
+- [x] Define typed rating, review summary, trust indicator, report, block list, moderation result, completion, and audit contracts with Arabic-safe validations.
+- [x] Add Supabase migrations for completion-gated two-way ratings, report duplicate prevention, private audit records, robust block enforcement, profile aggregates, lifecycle RPCs, indexes, and RLS hardening.
+- [x] Implement server-authorized services and tRPC procedures for ratings/reviews, trust summaries, reports, blocks, moderation decisions, and legitimate completion transitions.
+- [x] Build mobile-first Arabic RTL rating prompts, profile review/trust presentation, reusable report and block interactions, unblock settings, and contextual safety warnings with desktop adaptation.
+- [x] Add automated coverage for rating manipulation, duplicate reports, block interactions, valid lifecycle transitions, moderation risk levels, authorization/IDOR boundaries, RLS contracts, accessibility, and responsive UI states.
+- [x] Run TypeScript, full tests, production build, responsive visual checks, Phase 8 documentation, security-advisor review, checkpoint, and delivery without building an Admin Dashboard.
+- [x] Expose the Arabic-safe moderation preview through an authenticated tRPC procedure and consume it in the employer gig creation flow without revealing internal matching rules.
+- [x] Add a reusable end-user "حظر المستخدم" confirmation flow with a clear Arabic warning and protected block mutation, then verify its interaction behavior.
+- [x] Update Phase 8 verification documentation after the moderation/block UI remediation, rerun all checks, save the final checkpoint, and deliver the release while retaining the documented project-level Supabase Auth setting follow-up.

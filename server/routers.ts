@@ -3,13 +3,12 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
-import { applicationListSchema, applicationSchema, chatMediaMessageSchema, chatTextMessageSchema, conversationCloseSchema, conversationIdSchema, conversationListSchema, conversationMemberActionSchema, conversationMessageListSchema, conversationReportSchema, employerApplicationReviewSchema, employerBusinessProfileSchema, employerGigActionSchema, employerGigCreateSchema, employerGigListSchema, employerGigUpdateSchema, jobSeekerGigQuerySchema, nearbyGigQuerySchema, savedGigSchema } from "./schemas/domain";
+import { applicationListSchema, applicationSchema, blockedUserListSchema, chatMediaMessageSchema, chatTextMessageSchema, completionRatingListSchema, conversationCloseSchema, conversationIdSchema, conversationListSchema, conversationMemberActionSchema, conversationMessageListSchema, conversationReportSchema, employerApplicationReviewSchema, employerBusinessProfileSchema, employerGigActionSchema, employerGigCreateSchema, employerGigListSchema, employerGigUpdateSchema, gigCompletionSchema, gigModerationPreviewSchema, jobSeekerGigQuerySchema, nearbyGigQuerySchema, ratingCreateSchema, reportCreateSchema, reportListSchema, savedGigSchema, trustProfileSchema, userBlockSchema } from "./schemas/domain";
 import { getCurrentProfile, updateCurrentProfile } from "./services/profiles";
 import { createGig, getJobSeekerGig, getNearbyGigs, listActiveGigs, listJobSeekerGigs } from "./services/gigs";
 import { applyToGig, listMyApplications } from "./services/applications";
 import { listSavedGigIds, listSavedGigs, saveGig, unsaveGig } from "./services/favorites";
-import { createRating } from "./services/ratings";
-import { createReport } from "./services/reports";
+import { completeGigSecure, createPrivateReport, getModerationPreview, getTrustProfile, listBlockedUsers, listCompletionRatingTargets, listMyReports, setTrustedBlock, submitRating } from "./services/trustSafety";
 import { searchMoroccanLocations } from "./services/locationSearch";
 import { cancelEmployerGig, createEmployerGig, deleteEmployerGig, getEmployerBusinessProfile, getEmployerDashboard, listEmployerApplicants, listEmployerGigs, listEmployerNotifications, reviewEmployerApplication, setEmployerGigPause, updateEmployerBusinessProfileSecure, updateEmployerGig } from "./services/employer";
 import { closeConversation, getConversation, listConversations, markConversationRead, reportConversationContent, sendMediaMessage, sendTextMessage, setUserBlock, updateConversationMember } from "./services/messaging";
@@ -85,12 +84,9 @@ export const appRouter = router({
       }),
       notifications: supabaseProcedure.query(({ ctx }) => listEmployerNotifications(ctx.supabaseAccessToken!)),
     }),
-    ratings: supabaseRouter({
-      create: supabaseProcedure.input(z.unknown()).mutation(({ ctx, input }) => createRating(ctx.supabaseAccessToken!, input)),
-    }),
-    reports: supabaseRouter({
-      create: supabaseProcedure.input(z.unknown()).mutation(({ ctx, input }) => createReport(ctx.supabaseAccessToken!, input)),
-    }),
+    trust: supabaseRouter({ profile: publicProcedure.input(trustProfileSchema).query(({ input }) => getTrustProfile(input)), ratingTargets: supabaseProcedure.input(completionRatingListSchema).query(({ ctx, input }) => listCompletionRatingTargets(ctx.supabaseAccessToken!, input)), submitRating: supabaseProcedure.input(ratingCreateSchema).mutation(({ ctx, input }) => submitRating(ctx.supabaseAccessToken!, input)), completeGig: supabaseProcedure.input(gigCompletionSchema).mutation(({ ctx, input }) => completeGigSecure(ctx.supabaseAccessToken!, input)), moderateGig: supabaseProcedure.input(gigModerationPreviewSchema).query(({ ctx, input }) => getModerationPreview(ctx.supabaseAccessToken!, input)) }),
+    reports: supabaseRouter({ create: supabaseProcedure.input(reportCreateSchema).mutation(({ ctx, input }) => createPrivateReport(ctx.supabaseAccessToken!, input)), mine: supabaseProcedure.input(reportListSchema).query(({ ctx, input }) => listMyReports(ctx.supabaseAccessToken!, input)) }),
+    blocks: supabaseRouter({ set: supabaseProcedure.input(userBlockSchema.extend({ blocked: z.boolean() })).mutation(({ ctx, input }) => setTrustedBlock(ctx.supabaseAccessToken!, input)), list: supabaseProcedure.input(blockedUserListSchema).query(({ ctx, input }) => listBlockedUsers(ctx.supabaseAccessToken!, input)) }),
   }),
 });
 

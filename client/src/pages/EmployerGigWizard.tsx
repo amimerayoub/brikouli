@@ -10,14 +10,13 @@ import { DEFAULT_MAP_CENTER } from "@/lib/map/config";
 
 const categories = ["متجر", "مطعم", "تنظيم", "استقبال", "تنظيف", "توصيل", "أخرى"] as const;
 const steps = ["المعلومات", "الموقع", "المقابل", "المراجعة"];
-const danger = /(high[ -]?voltage|live[ -]?wire|heavy[ -]?construction|high[ -]?altitude|كهرباء\s+جهد\s+عال|أسلاك\s+مكشوفة|بناء\s+ثقيل|ارتفاع\s+عال)/i;
 
 export default function EmployerGigWizard() {
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState({ title: "", description: "", category: "متجر" as (typeof categories)[number], city: "", neighborhood: "", latitude: DEFAULT_MAP_CENTER.latitude, longitude: DEFAULT_MAP_CENTER.longitude, payment: "", paymentType: "fixed" as "fixed" | "hourly", duration: "", workDate: "", acceptanceLimit: 1 });
   const create = trpc.brikouli.employer.gigs.create.useMutation();
-  const safetyWarning = useMemo(() => danger.test(`${form.title} ${form.description} ${form.category}`) ? "لا يمكن نشر أعمال كهرباء الجهد العالي أو البناء الثقيل أو الصيانة في الارتفاعات. اختر مهمة محلية آمنة." : null, [form]);
+  const moderationInput = useMemo(() => ({ title: form.title, description: form.description, category: form.category }), [form.title, form.description, form.category]); const moderation = trpc.brikouli.trust.moderateGig.useQuery(moderationInput, { enabled: form.title.trim().length >= 4 && form.description.trim().length >= 12 }); const safetyWarning = moderation.data?.success && !moderation.data.data.allowed ? moderation.data.data.userMessage : null;
   const update = (values: Partial<typeof form>) => setForm(current => ({ ...current, ...values }));
   const validateStep = () => { if (step === 0 && (!form.title.trim() || form.description.trim().length < 12)) { toast.error("أضف عنواناً ووصفاً واضحين قبل المتابعة."); return false; } if (step === 1 && !form.city.trim()) { toast.error("أضف المدينة حتى تظهر الفرصة في البحث المحلي."); return false; } if (step === 2 && (!form.payment || Number(form.payment) <= 0 || !form.duration.trim())) { toast.error("أضف المقابل ومدة المهمة قبل المتابعة."); return false; } if (safetyWarning) { toast.error(safetyWarning); return false; } return true; };
   const next = () => { if (validateStep()) setStep(current => Math.min(3, current + 1)); };

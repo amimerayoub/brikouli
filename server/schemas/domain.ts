@@ -30,3 +30,15 @@ export const chatMediaMessageSchema = conversationIdSchema.extend({ dataUrl: z.s
 export const conversationMemberActionSchema = conversationIdSchema.extend({ archived: z.boolean().optional(), hidden: z.boolean().optional() }).refine(value => value.archived !== undefined || value.hidden !== undefined, { message: "حدد الإجراء المطلوب للمحادثة." });
 export const conversationCloseSchema = conversationIdSchema;
 export const conversationReportSchema = z.object({ conversationId: z.string().uuid().optional(), messageId: z.string().uuid().optional(), reason: z.string().trim().min(4).max(1500) }).refine(value => Boolean(value.conversationId || value.messageId), { message: "حدد المحادثة أو الرسالة المراد الإبلاغ عنها." });
+export const reportReasonValues = ["unsafe_content", "scam", "harassment", "misleading", "dangerous_work", "inappropriate", "other"] as const;
+export const reportTargetTypeValues = ["profile", "gig", "application", "rating", "conversation", "message"] as const;
+export const ratingCreateSchema = z.object({ gigId: z.string().uuid(), toUser: z.string().uuid(), stars: z.number().int().min(1, "اختر تقييماً من نجمة إلى خمس نجوم.").max(5, "اختر تقييماً من نجمة إلى خمس نجوم."), comment: z.string().trim().max(1000, "التعليق طويل جداً.").optional().nullable() });
+export const trustProfileSchema = z.object({ userId: z.string().uuid(), reviewLimit: z.number().int().min(1).max(20).default(6) });
+export const completionRatingListSchema = z.object({ limit: z.number().int().min(1).max(30).default(12) });
+export const reportCreateSchema = z.object({ targetType: z.enum(reportTargetTypeValues), targetId: z.string().uuid(), reason: z.enum(reportReasonValues), description: z.string().trim().min(4).max(1500).optional().nullable() });
+export const reportListSchema = z.object({ limit: z.number().int().min(1).max(30).default(20) });
+export const userBlockSchema = z.object({ userId: z.string().uuid() });
+export const blockedUserListSchema = z.object({ limit: z.number().int().min(1).max(100).default(50) });
+export const gigCompletionSchema = z.object({ gigId: z.string().uuid() });
+export const moderationRiskValues = ["safe", "review", "blocked"] as const;
+export const gigModerationPreviewSchema = z.object({ title: z.string().trim().max(140), description: z.string().trim().max(4000), category: z.string().trim().max(80) });

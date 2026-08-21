@@ -18,6 +18,8 @@ import JobDetails from "./pages/JobDetails";
 import Profile from "./pages/Profile";
 import Messages from "./pages/Messages";
 import Conversation from "./pages/Conversation";
+import Ratings from "./pages/Ratings";
+import SafetySettings from "./pages/SafetySettings";
 import Applications from "./pages/Applications";
 import SavedGigs from "./pages/SavedGigs";
 import Notifications from "./pages/Notifications";
@@ -44,6 +46,7 @@ import "./styles/employer.css";
 import "./styles/employer-applicants-overview.css";
 import "./styles/messaging.css";
 import "./styles/messaging-desktop.css";
+import "./styles/trust.css";
 
 function Router() {
   const [location] = useLocation();
@@ -63,6 +66,8 @@ function Router() {
           <Route path={"/profile"} component={Profile} />
           <Route path={"/messages"} component={Messages} />
           <Route path={"/messages/:conversationId"} component={Conversation} />
+          <Route path={"/ratings"} component={Ratings} />
+          <Route path={"/safety"} component={SafetySettings} />
           <Route path={"/applications"} component={Applications} />
           <Route path={"/saved"} component={SavedGigs} />
           <Route path={"/notifications"} component={Notifications} />
