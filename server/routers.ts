@@ -3,9 +3,11 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
+import { applicationListSchema, applicationSchema, jobSeekerGigQuerySchema, nearbyGigQuerySchema, savedGigSchema } from "./schemas/domain";
 import { getCurrentProfile, updateCurrentProfile } from "./services/profiles";
-import { createGig, getNearbyGigs, listActiveGigs } from "./services/gigs";
-import { applyToGig } from "./services/applications";
+import { createGig, getJobSeekerGig, getNearbyGigs, listActiveGigs, listJobSeekerGigs } from "./services/gigs";
+import { applyToGig, listMyApplications } from "./services/applications";
+import { listSavedGigIds, listSavedGigs, saveGig, unsaveGig } from "./services/favorites";
 import { createRating } from "./services/ratings";
 import { createReport } from "./services/reports";
 import { searchMoroccanLocations } from "./services/locationSearch";
@@ -31,14 +33,23 @@ export const appRouter = router({
     }),
     gigs: supabaseRouter({
       listActive: publicProcedure.query(() => listActiveGigs()),
-      nearby: publicProcedure.input(z.unknown()).query(({ input }) => getNearbyGigs(input)),
+      nearby: publicProcedure.input(nearbyGigQuerySchema).query(({ input }) => getNearbyGigs(input)),
+      listForJobSeeker: publicProcedure.input(jobSeekerGigQuerySchema).query(({ input }) => listJobSeekerGigs(input)),
+      detail: publicProcedure.input(savedGigSchema).query(({ input }) => getJobSeekerGig(input)),
       create: supabaseProcedure.input(z.unknown()).mutation(({ ctx, input }) => createGig(ctx.supabaseAccessToken!, input)),
+    }),
+    favorites: supabaseRouter({
+      list: supabaseProcedure.query(({ ctx }) => listSavedGigs(ctx.supabaseAccessToken!)),
+      ids: supabaseProcedure.query(({ ctx }) => listSavedGigIds(ctx.supabaseAccessToken!)),
+      save: supabaseProcedure.input(savedGigSchema).mutation(({ ctx, input }) => saveGig(ctx.supabaseAccessToken!, input)),
+      remove: supabaseProcedure.input(savedGigSchema).mutation(({ ctx, input }) => unsaveGig(ctx.supabaseAccessToken!, input)),
     }),
     locations: supabaseRouter({
       search: publicProcedure.input(z.unknown()).mutation(({ input }) => searchMoroccanLocations(input)),
     }),
     applications: supabaseRouter({
-      create: supabaseProcedure.input(z.unknown()).mutation(({ ctx, input }) => applyToGig(ctx.supabaseAccessToken!, input)),
+      create: supabaseProcedure.input(applicationSchema).mutation(({ ctx, input }) => applyToGig(ctx.supabaseAccessToken!, input)),
+      mine: supabaseProcedure.input(applicationListSchema).query(({ ctx, input }) => listMyApplications(ctx.supabaseAccessToken!, input)),
     }),
     ratings: supabaseRouter({
       create: supabaseProcedure.input(z.unknown()).mutation(({ ctx, input }) => createRating(ctx.supabaseAccessToken!, input)),

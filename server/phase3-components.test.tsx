@@ -1,3 +1,4 @@
+import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { AppButton } from "../client/src/components/phase3/AppButton";

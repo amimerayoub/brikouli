@@ -44,3 +44,27 @@
 - [x] Capture and review the post-migration desktop split Explore view, then rerun final verification and save the Phase 5 checkpoint.
 - [x] Add focused Phase 5 assertions for explicit location-search submission and radius/category/urgent/sort filter state updates.
 - [x] Record the desktop MapLibre screenshot review outcome and save the Phase 5 checkpoint.
+- [x] Audit the existing React/Vite/Express/tRPC routes, Supabase schema, and UI components; map the requested Next.js-style workflow to the current architecture without adding employer or admin dashboards.
+- [x] Add RLS-protected Supabase persistence and typed tRPC contracts for saved gigs and duplicate-safe Job Seeker applications.
+- [x] Replace Job Seeker tRPC `unknown` inputs with concrete schemas and add router-level invalid-input coverage for saved gigs, applications, and discovery queries.
+- [x] Build reusable Arabic RTL gig cards, search/category controls, loading skeletons, empty states, and safe error states for Job Seeker screens.
+- [x] Add and test a reusable Arabic RTL category-chip control with active selection, horizontal scrolling, and accessible button semantics.
+- [x] Enhance Home and Explore with live Supabase gig discovery, instant Arabic title/category search, filters, recently posted content, and saved-gig controls.
+- [x] Add and test separate instant Arabic gig-title search in Explore, combined with nearby radius/category/urgency filters and the saved-gig marker sheet.
+- [x] Complete gig details with employer context, sticky actions, save behavior, and a motion-based application review, confirmation, and success flow.
+- [x] Add the real Application Tracking route and explicit motion-backed review/success transitions, then verify the full detail-to-tracking application path.
+- [ ] Capture and review the Job Details application-success sheet and live `/applications` destination to verify the full Job Seeker tracking path.
+- [x] Add dedicated Saved Gigs and Application Tracking views with accessible status tabs, optimistic state updates, and route escape paths.
+- [x] Expand the Job Seeker profile activity views and add a non-realtime grouped Notification Center UI.
+- [x] Add optimistic saved-gig cache updates with rollback, then test immediate saved-state behavior across discovery and Saved Gigs.
+- [x] Add and test Notification Center loading, empty, error, grouped, and local read-state compositions.
+- [x] Add optimistic saved-gig updates with rollback to MapLibre discovery and verify immediate save/remove behavior across every discovery surface.
+- [x] Add behavior-focused Notification Center tests for loading, empty, error, grouped today/earlier, individual-read, and mark-all-read states.
+- [x] Add rendered interaction coverage for optimistic saved-gig state changes and rollback across Home, MapLibre marker sheets, and Saved Gigs.
+- [x] Add rendered interaction coverage for Notification Center loading, empty, error, grouped, individual-read, and mark-all-read UI states.
+- [x] Add mocked real-surface tests for Home, MapLibre discovery, and Saved Gigs optimistic mutation success and rollback behavior.
+- [x] Add full Notification Center page rendered tests for loading, empty, error, and today/earlier grouped UI states.
+- [x] Add focused Vitest coverage for search, filters, favorites, application duplicate prevention, application statuses, and RTL/responsive composition.
+- [x] Perform mobile and desktop visual verification, production validation, Job Seeker Phase documentation, and a checkpoint delivery.
+- [x] Create Job Seeker workflow documentation covering saved gigs, applications, profile activity, notifications, test coverage, and verification limits.
+- [x] Save a post-implementation Job Seeker checkpoint and deliver its recoverable project version.

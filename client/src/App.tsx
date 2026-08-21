@@ -17,11 +17,20 @@ import Explore from "./pages/Explore";
 import JobDetails from "./pages/JobDetails";
 import Profile from "./pages/Profile";
 import Messages from "./pages/Messages";
+import Applications from "./pages/Applications";
+import SavedGigs from "./pages/SavedGigs";
+import Notifications from "./pages/Notifications";
 import "./styles/phase3.css";
 import "./styles/phase3-overrides.css";
 import "./styles/phase4.css";
 import "./styles/phase4-overrides.css";
 import "./styles/phase5.css";
+import "./styles/job-seeker.css";
+import "./styles/job-seeker-overrides.css";
+import "./styles/job-seeker-details.css";
+import "./styles/job-seeker-activity.css";
+import "./styles/job-seeker-profile.css";
+import "./styles/job-seeker-notifications.css";
 
 function Router() {
   const [location] = useLocation();
@@ -40,6 +49,9 @@ function Router() {
           <Route path={"/dashboard"}>{() => <ProtectedPlaceholder label="لوحة الفرص" />}</Route>
           <Route path={"/profile"} component={Profile} />
           <Route path={"/messages"} component={Messages} />
+          <Route path={"/applications"} component={Applications} />
+          <Route path={"/saved"} component={SavedGigs} />
+          <Route path={"/notifications"} component={Notifications} />
           <Route path={"/employer"}>{() => <ProtectedPlaceholder label="منطقة صاحب العمل" />}</Route>
           <Route path={"/admin"}>{() => <ProtectedPlaceholder label="منطقة الإدارة" />}</Route>
           <Route path={"/404"} component={NotFound} />
