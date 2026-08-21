@@ -20,3 +20,13 @@ export const employerGigListSchema = z.object({ status: z.enum(employerGigStatus
 export const employerGigActionSchema = z.object({ gigId: z.string().uuid() });
 export const employerApplicationReviewSchema = z.object({ applicationId: z.string().uuid(), decision: z.enum(["accepted", "rejected"]) });
 export const employerBusinessProfileSchema = z.object({ fullName: z.string().trim().min(2).max(120), phone: z.string().trim().regex(/^\+[1-9]\d{7,31}$/).optional().nullable(), city: z.string().trim().max(120).optional().nullable(), neighborhood: z.string().trim().max(120).optional().nullable(), avatarUrl: z.string().url().max(2048).optional().nullable(), businessName: z.string().trim().min(2).max(140).optional().nullable(), businessCategory: z.enum(employerCategoryValues).optional().nullable(), businessDescription: z.string().trim().max(1600).optional().nullable() });
+export const conversationStatusValues = ["active", "archived", "closed"] as const;
+export const chatMessageTypeValues = ["text", "voice", "image", "system"] as const;
+export const conversationIdSchema = z.object({ conversationId: z.string().uuid() });
+export const conversationListSchema = z.object({ query: z.string().trim().max(120).optional().default(""), includeArchived: z.boolean().optional().default(false) });
+export const conversationMessageListSchema = conversationIdSchema.extend({ limit: z.number().int().min(1).max(100).default(50), before: z.string().datetime().optional() });
+export const chatTextMessageSchema = conversationIdSchema.extend({ content: z.string().trim().min(1, "اكتب رسالة قبل الإرسال.").max(4000, "الرسالة طويلة جداً.") });
+export const chatMediaMessageSchema = conversationIdSchema.extend({ dataUrl: z.string().min(32).max(11_200_000), mimeType: z.enum(["image/jpeg", "image/png", "image/webp", "image/avif", "audio/webm", "audio/ogg", "audio/mpeg", "audio/wav"]), fileName: z.string().trim().min(1).max(120), durationMs: z.number().int().min(0).max(30_000).nullable().optional() });
+export const conversationMemberActionSchema = conversationIdSchema.extend({ archived: z.boolean().optional(), hidden: z.boolean().optional() }).refine(value => value.archived !== undefined || value.hidden !== undefined, { message: "حدد الإجراء المطلوب للمحادثة." });
+export const conversationCloseSchema = conversationIdSchema;
+export const conversationReportSchema = z.object({ conversationId: z.string().uuid().optional(), messageId: z.string().uuid().optional(), reason: z.string().trim().min(4).max(1500) }).refine(value => Boolean(value.conversationId || value.messageId), { message: "حدد المحادثة أو الرسالة المراد الإبلاغ عنها." });

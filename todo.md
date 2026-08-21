@@ -86,3 +86,22 @@
 - [x] Replace the general Employer Applicants navigation dead end with an employer-owned application overview that links to each per-gig review queue.
 - [x] Harden the shared authentication frame against mobile horizontal overflow observed during protected-route smoke review.
 - [x] Run mobile and desktop review, zero-error TypeScript check, complete test suite, production build, Phase 6 documentation, checkpoint, and delivery.
+- [x] Audit the existing `/messages` placeholder, Supabase actor/service boundaries, storage helper, accepted-application flow, and browser Realtime client for Phase 7 integration.
+- [x] Define typed conversation, message, media, read-state, typing-presence, and moderation-preparation contracts with Arabic-safe validation.
+- [x] Add Supabase migrations for private conversations and messages, RLS policies, accepted-application conversation creation, and Realtime publication; implement private media through the project-managed storage layer.
+- [x] Implement server-authorized tRPC services for listing and searching owned conversations, reading history, sending text/media messages, marking read, archiving/closing, and locally hiding conversations.
+- [x] Build the Arabic RTL responsive conversation list and premium conversation screen with sticky header, system/text/image/voice message states, accessible actions, and a mobile-safe composer.
+- [x] Add private image and voice upload flows with MIME, size, duration, and ownership validation; record and preview voices for up to 30 seconds without exposing public URLs.
+- [x] Add Supabase Realtime message and conversation subscriptions, typing presence, delivered/read indicators, unread badges, automatic cache refresh, and clean subscription teardown.
+- [x] Add focused tests for acceptance-gated conversation creation, ownership/RLS isolation, message/media validation, read/close/archive behavior, Realtime UI state, and RTL mobile responsiveness.
+- [x] Verify TypeScript, complete test suite, production build, protected mobile/desktop chat entry views, write Phase 7 documentation, checkpoint, and deliver the implementation.
+- [x] Audit the existing `/messages` placeholder, Supabase actor/service boundaries, managed private storage helper, accepted-application flow, and browser Realtime client for Phase 7 integration.
+- [x] Define typed conversation, message, media, read-state, typing-presence, and moderation-preparation contracts with Arabic-safe validation.
+- [x] Add Supabase migrations for private conversations and messages, RLS policies, accepted-application conversation creation, and Realtime publication; use the platform-required managed private S3 storage path for media instead of a second storage source of truth.
+- [x] Implement server-authorized tRPC services for listing and searching owned conversations, reading history, sending text/media messages, marking read, archiving/closing, and locally hiding conversations.
+- [x] Build the Arabic RTL responsive conversation list and premium conversation screen with sticky header, system/text/image/voice message states, accessible actions, and a mobile-safe composer.
+- [x] Add private image and voice upload flows with MIME, size, duration, and ownership validation; record and preview voices for up to 30 seconds without exposing public URLs.
+- [x] Add Supabase Realtime message and conversation subscriptions, private-channel typing presence, delivered/read indicators, automatic cache invalidation/refetching, and clean subscription teardown; document the required production Realtime setting.
+- [x] Add focused tests for acceptance-gated conversation creation, ownership/RLS isolation, message/media validation, closed-message behavior, Realtime UI state, and RTL mobile composer controls.
+- [x] Verify TypeScript, complete test suite, production build, protected mobile/desktop chat entry views, write Phase 7 documentation, checkpoint, and deliver the implementation.
+- [ ] Capture authenticated employer–job-seeker chat screens at mobile and desktop widths, and verify a live end-to-end Realtime exchange after enabling private Realtime channel enforcement in the Supabase project settings.

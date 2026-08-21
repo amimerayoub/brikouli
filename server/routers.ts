@@ -3,7 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
-import { applicationListSchema, applicationSchema, employerApplicationReviewSchema, employerBusinessProfileSchema, employerGigActionSchema, employerGigCreateSchema, employerGigListSchema, employerGigUpdateSchema, jobSeekerGigQuerySchema, nearbyGigQuerySchema, savedGigSchema } from "./schemas/domain";
+import { applicationListSchema, applicationSchema, chatMediaMessageSchema, chatTextMessageSchema, conversationCloseSchema, conversationIdSchema, conversationListSchema, conversationMemberActionSchema, conversationMessageListSchema, conversationReportSchema, employerApplicationReviewSchema, employerBusinessProfileSchema, employerGigActionSchema, employerGigCreateSchema, employerGigListSchema, employerGigUpdateSchema, jobSeekerGigQuerySchema, nearbyGigQuerySchema, savedGigSchema } from "./schemas/domain";
 import { getCurrentProfile, updateCurrentProfile } from "./services/profiles";
 import { createGig, getJobSeekerGig, getNearbyGigs, listActiveGigs, listJobSeekerGigs } from "./services/gigs";
 import { applyToGig, listMyApplications } from "./services/applications";
@@ -12,6 +12,7 @@ import { createRating } from "./services/ratings";
 import { createReport } from "./services/reports";
 import { searchMoroccanLocations } from "./services/locationSearch";
 import { cancelEmployerGig, createEmployerGig, deleteEmployerGig, getEmployerBusinessProfile, getEmployerDashboard, listEmployerApplicants, listEmployerGigs, listEmployerNotifications, reviewEmployerApplication, setEmployerGigPause, updateEmployerBusinessProfileSecure, updateEmployerGig } from "./services/employer";
+import { closeConversation, getConversation, listConversations, markConversationRead, reportConversationContent, sendMediaMessage, sendTextMessage, setUserBlock, updateConversationMember } from "./services/messaging";
 import { supabaseProcedure, supabaseRouter } from "./supabase/trpc";
 
 export const appRouter = router({
@@ -51,6 +52,17 @@ export const appRouter = router({
     applications: supabaseRouter({
       create: supabaseProcedure.input(applicationSchema).mutation(({ ctx, input }) => applyToGig(ctx.supabaseAccessToken!, input)),
       mine: supabaseProcedure.input(applicationListSchema).query(({ ctx, input }) => listMyApplications(ctx.supabaseAccessToken!, input)),
+    }),
+    messaging: supabaseRouter({
+      list: supabaseProcedure.input(conversationListSchema).query(({ ctx, input }) => listConversations(ctx.supabaseAccessToken!, input)),
+      detail: supabaseProcedure.input(conversationMessageListSchema).query(({ ctx, input }) => getConversation(ctx.supabaseAccessToken!, input)),
+      sendText: supabaseProcedure.input(chatTextMessageSchema).mutation(({ ctx, input }) => sendTextMessage(ctx.supabaseAccessToken!, input)),
+      sendMedia: supabaseProcedure.input(chatMediaMessageSchema).mutation(({ ctx, input }) => sendMediaMessage(ctx.supabaseAccessToken!, input)),
+      markRead: supabaseProcedure.input(conversationIdSchema).mutation(({ ctx, input }) => markConversationRead(ctx.supabaseAccessToken!, input)),
+      memberState: supabaseProcedure.input(conversationMemberActionSchema).mutation(({ ctx, input }) => updateConversationMember(ctx.supabaseAccessToken!, input)),
+      close: supabaseProcedure.input(conversationCloseSchema).mutation(({ ctx, input }) => closeConversation(ctx.supabaseAccessToken!, input)),
+      block: supabaseProcedure.input(z.object({ userId: z.string().uuid(), blocked: z.boolean() })).mutation(({ ctx, input }) => setUserBlock(ctx.supabaseAccessToken!, input)),
+      report: supabaseProcedure.input(conversationReportSchema).mutation(({ ctx, input }) => reportConversationContent(ctx.supabaseAccessToken!, input)),
     }),
     employer: supabaseRouter({
       dashboard: supabaseProcedure.query(({ ctx }) => getEmployerDashboard(ctx.supabaseAccessToken!)),
