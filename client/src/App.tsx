@@ -3,6 +3,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
+import { useLocation } from "wouter";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -11,25 +13,37 @@ import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import VerifyOtp from "./pages/auth/VerifyOtp";
 import ProtectedPlaceholder from "./pages/auth/ProtectedPlaceholder";
+import Explore from "./pages/Explore";
+import JobDetails from "./pages/JobDetails";
+import Profile from "./pages/Profile";
+import Messages from "./pages/Messages";
+import "./styles/phase3.css";
+import "./styles/phase3-overrides.css";
 
 function Router() {
-  // make sure to consider if you need authentication for certain routes
+  const [location] = useLocation();
+  const reduceMotion = useReducedMotion();
   return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/login"} component={Login} />
-      <Route path={"/register"} component={Register} />
-      <Route path={"/forgot-password"} component={ForgotPassword} />
-      <Route path={"/verify-otp"} component={VerifyOtp} />
-      <Route path={"/dashboard"}>{() => <ProtectedPlaceholder label="لوحة الفرص" />}</Route>
-      <Route path={"/profile"}>{() => <ProtectedPlaceholder label="الملف الشخصي" />}</Route>
-      <Route path={"/messages"}>{() => <ProtectedPlaceholder label="الرسائل" />}</Route>
-      <Route path={"/employer"}>{() => <ProtectedPlaceholder label="منطقة صاحب العمل" />}</Route>
-      <Route path={"/admin"}>{() => <ProtectedPlaceholder label="منطقة الإدارة" />}</Route>
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div key={location} initial={reduceMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={reduceMotion ? undefined : { opacity: 0, y: -5 }} transition={{ duration: reduceMotion ? 0 : 0.22, ease: [0.23, 1, 0.32, 1] }}>
+        <Switch>
+          <Route path={"/"} component={Home} />
+          <Route path={"/explore"} component={Explore} />
+          <Route path={"/jobs/:jobId"} component={JobDetails} />
+          <Route path={"/login"} component={Login} />
+          <Route path={"/register"} component={Register} />
+          <Route path={"/forgot-password"} component={ForgotPassword} />
+          <Route path={"/verify-otp"} component={VerifyOtp} />
+          <Route path={"/dashboard"}>{() => <ProtectedPlaceholder label="لوحة الفرص" />}</Route>
+          <Route path={"/profile"} component={Profile} />
+          <Route path={"/messages"} component={Messages} />
+          <Route path={"/employer"}>{() => <ProtectedPlaceholder label="منطقة صاحب العمل" />}</Route>
+          <Route path={"/admin"}>{() => <ProtectedPlaceholder label="منطقة الإدارة" />}</Route>
+          <Route path={"/404"} component={NotFound} />
+          <Route component={NotFound} />
+        </Switch>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 

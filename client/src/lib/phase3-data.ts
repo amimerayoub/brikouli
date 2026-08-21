@@ -1,0 +1,8 @@
+export type Job = { id: string; title: string; employer: string; initials: string; category: string; payment: string; duration: string; distance: string; urgent?: boolean; verified?: boolean; image: string; description: string; requirements: string[]; };
+export const categories = ["متاجر", "مطاعم", "تنظيم", "استقبال", "تنظيف", "أخرى"];
+export const phase3Jobs: Job[] = [
+  { id: "shelves", title: "تنظيم رفوف متجر", employer: "متجر الحي", initials: "م", category: "متاجر", payment: "90 د.م", duration: "4 ساعات", distance: "1.2 كم", urgent: true, verified: true, image: "/manus-storage/brikouli-hero-local-gig_63b3860c.jpg", description: "نبحث عن شخص منظم للمساعدة في ترتيب الرفوف وتجهيز مساحة العرض قبل فترة المساء.", requirements: ["الالتزام بالوقت", "القدرة على ترتيب المنتجات", "التواصل الواضح"] },
+  { id: "reception", title: "استقبال زوار فعالية", employer: "فضاء محلي", initials: "ف", category: "استقبال", payment: "75 د.م", duration: "3 ساعات", distance: "2.4 كم", verified: true, image: "/manus-storage/brikouli-opportunities-market_6514a602.jpg", description: "مهمة استقبال قصيرة لمساعدة الزوار وتوجيههم في فعالية محلية هادئة.", requirements: ["أسلوب مرحّب", "القدرة على التوجيه", "مظهر مرتب"] },
+  { id: "cafe", title: "مساعدة في تجهيز مقهى", employer: "مقهى النور", initials: "ن", category: "مطاعم", payment: "100 د.م", duration: "5 ساعات", distance: "3.1 كم", image: "/manus-storage/brikouli-hero-local-gig_63b3860c.jpg", description: "دعم فريق المقهى في ترتيب المساحة والتحضير لفترة الذروة.", requirements: ["حيوية ونشاط", "العمل ضمن فريق", "احترام تعليمات السلامة"] },
+];
+export function jobById(id: string | undefined) { return phase3Jobs.find(job => job.id === id) ?? phase3Jobs[0]; }

@@ -1,0 +1,4 @@
+import type { ReactNode } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { X } from "lucide-react";
+export function BottomSheet({ open, onClose, title, children }: { open: boolean; onClose: () => void; title: string; children: ReactNode }) { return <AnimatePresence>{open && <motion.div className="sheet-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onMouseDown={onClose}><motion.section role="dialog" aria-modal="true" aria-label={title} className="bottom-sheet" initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} transition={{ duration: .25, ease: [0.23, 1, 0.32, 1] }} onMouseDown={event => event.stopPropagation()}><div className="sheet-handle" /><header><h2>{title}</h2><button type="button" onClick={onClose} aria-label="إغلاق"><X size={18} /></button></header>{children}</motion.section></motion.div>}</AnimatePresence>; }

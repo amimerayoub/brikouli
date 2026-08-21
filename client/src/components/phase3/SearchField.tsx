@@ -1,0 +1,3 @@
+import { Search, SlidersHorizontal } from "lucide-react";
+type SearchFieldProps = { value?: string; onChange?: (value: string) => void; onFilter?: () => void; placeholder?: string; label?: string };
+export function SearchField({ value = "", onChange, onFilter, placeholder = "ابحث عن فرصة قريبة", label = "بحث" }: SearchFieldProps) { return <label className="phase-search"><span className="sr-only">{label}</span><Search size={19} aria-hidden="true" /><input value={value} onChange={event => onChange?.(event.target.value)} placeholder={placeholder} type="search" /><button type="button" onClick={onFilter} aria-label="فتح عوامل التصفية"><SlidersHorizontal size={18} /></button></label>; }
