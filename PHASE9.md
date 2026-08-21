@@ -87,3 +87,7 @@ The only remaining project-level production configuration warning is [leaked-pas
 ## Phase 10 readiness
 
 The next phase can focus on performance profiling and pagination refinement for high-volume installations, retained monitoring/telemetry integration, production Auth settings, step-up controls, authenticated manual acceptance testing, and final security QA. The administrative service namespace, safe typed contracts, RLS model, audit events, and isolated UI shell are already in place for that work.
+
+## Inherited live-acceptance prerequisite
+
+An earlier Employer Workspace acceptance item remains intentionally deferred: a visual capture of the authenticated Employer Dashboard at a mobile viewport requires a real active Employer session and business data. Neither was available in this environment. No test user, credential, or marketplace record was fabricated in the connected environment merely to satisfy a screenshot requirement. When a controlled Employer identity and representative business data are available, verify the mobile dashboard, protected navigation, and business-dependent states as a live acceptance test.

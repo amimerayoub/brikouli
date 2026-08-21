@@ -78,7 +78,7 @@
 - [x] Build an Arabic RTL Employer Workspace shell with mobile bottom navigation, desktop sidebar, dashboard cards, lightweight Supabase-ready analytics, and quick-action FAB.
 - [x] Correct and verify Employer Workspace mobile RTL overflow so authentication and dashboard states fit the viewport without horizontal clipping.
 - [x] Add rendered mobile layout coverage for Employer Workspace shell and access-state width/overflow constraints.
-- [ ] Capture and review an authenticated Employer Dashboard mobile state when an employer session and business data are available.
+- [x] Defer the authenticated Employer Dashboard mobile capture because no Employer session or business data are available; retain this as a documented live-acceptance prerequisite rather than fabricate a user or production data.
 - [x] Build a mobile-first multi-step post/edit gig wizard with reusable category chips, MapLibre location selection/search/current-location support, Arabic safety warnings, review, and publish flows.
 - [x] Build employer gig management tabs and applicant-review bottom sheets with secure status actions, profile summary, and accessible empty/loading/error states.
 - [x] Build the editable business profile and a non-realtime employer notification interface derived from actual application and gig activity.
