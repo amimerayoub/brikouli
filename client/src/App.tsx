@@ -19,6 +19,8 @@ import Profile from "./pages/Profile";
 import Messages from "./pages/Messages";
 import "./styles/phase3.css";
 import "./styles/phase3-overrides.css";
+import "./styles/phase4.css";
+import "./styles/phase4-overrides.css";
 
 function Router() {
   const [location] = useLocation();

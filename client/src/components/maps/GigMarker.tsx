@@ -1,0 +1,5 @@
+import type { NearbyGig } from "@shared/brikouli.types";
+const categorySymbols: Record<string, string> = { "متاجر": "م", "مطاعم": "ط", "تنظيم": "ت", "استقبال": "ا", "تنظيف": "ن" };
+export function markerSymbol(category: string) { return categorySymbols[category] ?? "◔"; }
+export function markerClassName(urgent: boolean) { return `map-gig-marker ${urgent ? "map-gig-marker-urgent" : ""}`; }
+export function createGigMarker(map: google.maps.Map, gig: NearbyGig, onSelect: () => void) { if (gig.latitude === null || gig.longitude === null) return null; const content = document.createElement("button"); content.type = "button"; content.className = markerClassName(gig.urgent); content.setAttribute("aria-label", `فتح مهمة ${gig.title}`); content.innerHTML = `<span>${markerSymbol(gig.category)}</span>${gig.urgent ? "<i>!</i>" : ""}`; content.addEventListener("click", onSelect); return new google.maps.marker.AdvancedMarkerElement({ map, position: { lat: gig.latitude, lng: gig.longitude }, content, title: gig.title }); }

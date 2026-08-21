@@ -4,10 +4,11 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { getCurrentProfile, updateCurrentProfile } from "./services/profiles";
-import { createGig, listActiveGigs } from "./services/gigs";
+import { createGig, getNearbyGigs, listActiveGigs } from "./services/gigs";
 import { applyToGig } from "./services/applications";
 import { createRating } from "./services/ratings";
 import { createReport } from "./services/reports";
+import { searchMoroccanLocations } from "./services/locationSearch";
 import { supabaseProcedure, supabaseRouter } from "./supabase/trpc";
 
 export const appRouter = router({
@@ -30,7 +31,11 @@ export const appRouter = router({
     }),
     gigs: supabaseRouter({
       listActive: publicProcedure.query(() => listActiveGigs()),
+      nearby: publicProcedure.input(z.unknown()).query(({ input }) => getNearbyGigs(input)),
       create: supabaseProcedure.input(z.unknown()).mutation(({ ctx, input }) => createGig(ctx.supabaseAccessToken!, input)),
+    }),
+    locations: supabaseRouter({
+      search: publicProcedure.input(z.unknown()).mutation(({ input }) => searchMoroccanLocations(input)),
     }),
     applications: supabaseRouter({
       create: supabaseProcedure.input(z.unknown()).mutation(({ ctx, input }) => applyToGig(ctx.supabaseAccessToken!, input)),

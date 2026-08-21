@@ -22,3 +22,15 @@
 - [x] Add focused rendered-component tests for Phase 3 navigation, job cards, and presentation states.
 - [x] Add a rendered-navigation test for the Phase 3 application shell and rerun the full test suite.
 - [x] Re-run final verification, confirm Phase 3 documentation and checklist status, then save the Phase 3 checkpoint.
+- [x] Confirm managed map-service configuration and the supported mapping integration before implementation.
+- [x] Extend Supabase schema and RLS-compatible server services with validated gig coordinates and efficient nearby-gig queries.
+- [x] Create reusable managed-map, marker, popup, control, geolocation, distance, and Arabic geocoding-search modules.
+- [x] Build mobile map, list, and desktop split discovery views with map modes, bottom sheets, filters, sorting, and location states.
+- [x] Add location, distance, query, marker, and responsive UI tests; perform mobile/desktop verification; document and checkpoint Phase 4.
+- [x] Record the managed-map proxy 401/403 runtime limitation and preserve the non-blocking list/filter fallback pending integration restoration.
+- [x] Add focused Phase 4 tests for geolocation permission states and map/list/split mode composition.
+- [x] Defer live map rendering, marker selection, and map-control validation at the user’s request until mapping credentials are available.
+- [x] Re-run final verification, confirm documentation, and save the Phase 4 checkpoint.
+- [x] Add a focused marker-style test for category and urgency rendering semantics without relying on the unavailable live map script.
+- [x] Attempt a server-mediated managed-map loader that keeps mapping credentials out of the browser bundle; document the unavailable upstream response and retain the fallback state.
+- [x] Replace the unavailable live-map loader with an explicit non-blocking deferred-map state until a mapping service is connected.
