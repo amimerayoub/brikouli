@@ -68,3 +68,21 @@
 - [x] Perform mobile and desktop visual verification, production validation, Job Seeker Phase documentation, and a checkpoint delivery.
 - [x] Create Job Seeker workflow documentation covering saved gigs, applications, profile activity, notifications, test coverage, and verification limits.
 - [x] Save a post-implementation Job Seeker checkpoint and deliver its recoverable project version.
+- [x] Audit existing employer roles, protected routes, gig/application ownership rules, reusable MapLibre components, and the absence of Admin Workspace scope.
+- [x] Extend Supabase schema, RLS policies, hazardous-work validation, and typed tRPC contracts for employer business fields, gig lifecycle, applicant management, and single-hire acceptance.
+- [x] Implement server-authorized employer services for dashboard statistics, gig create/edit/delete/pause/resume, applicant retrieval, secure accept/reject transitions, and business-profile updates.
+- [x] Add and test explicit RLS policy coverage for employer business-profile updates and secure applicant-review transitions introduced by Phase 6.
+- [x] Implement and test an employer-owned hard-delete path for draft or cancelled gigs, while retaining cancellation for live work with applicant history.
+- [x] Add service-level RLS behavior tests for employer-only business-profile updates and employer-owned applicant review RPCs.
+- [x] Add safe-delete behavior tests for draft deletion, cancellation-first enforcement, and applicant-history blocking; rerun the complete suite.
+- [x] Build an Arabic RTL Employer Workspace shell with mobile bottom navigation, desktop sidebar, dashboard cards, lightweight Supabase-ready analytics, and quick-action FAB.
+- [x] Correct and verify Employer Workspace mobile RTL overflow so authentication and dashboard states fit the viewport without horizontal clipping.
+- [x] Add rendered mobile layout coverage for Employer Workspace shell and access-state width/overflow constraints.
+- [ ] Capture and review an authenticated Employer Dashboard mobile state when an employer session and business data are available.
+- [x] Build a mobile-first multi-step post/edit gig wizard with reusable category chips, MapLibre location selection/search/current-location support, Arabic safety warnings, review, and publish flows.
+- [x] Build employer gig management tabs and applicant-review bottom sheets with secure status actions, profile summary, and accessible empty/loading/error states.
+- [x] Build the editable business profile and a non-realtime employer notification interface derived from actual application and gig activity.
+- [x] Add Vitest and rendered interaction coverage for employer authorization, ownership, hazardous-gig blocking, single-hire protection, gig lifecycle, location inputs, and responsive RTL UI states.
+- [x] Replace the general Employer Applicants navigation dead end with an employer-owned application overview that links to each per-gig review queue.
+- [x] Harden the shared authentication frame against mobile horizontal overflow observed during protected-route smoke review.
+- [x] Run mobile and desktop review, zero-error TypeScript check, complete test suite, production build, Phase 6 documentation, checkpoint, and delivery.

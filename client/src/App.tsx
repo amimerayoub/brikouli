@@ -20,6 +20,14 @@ import Messages from "./pages/Messages";
 import Applications from "./pages/Applications";
 import SavedGigs from "./pages/SavedGigs";
 import Notifications from "./pages/Notifications";
+import EmployerDashboard from "./pages/EmployerDashboard";
+import EmployerGigWizard from "./pages/EmployerGigWizard";
+import EmployerGigs from "./pages/EmployerGigs";
+import EmployerGigEditor from "./pages/EmployerGigEditor";
+import EmployerApplicants from "./pages/EmployerApplicants";
+import EmployerApplicantsOverview from "./pages/EmployerApplicantsOverview";
+import EmployerProfile from "./pages/EmployerProfile";
+import EmployerNotifications from "./pages/EmployerNotifications";
 import "./styles/phase3.css";
 import "./styles/phase3-overrides.css";
 import "./styles/phase4.css";
@@ -31,6 +39,8 @@ import "./styles/job-seeker-details.css";
 import "./styles/job-seeker-activity.css";
 import "./styles/job-seeker-profile.css";
 import "./styles/job-seeker-notifications.css";
+import "./styles/employer.css";
+import "./styles/employer-applicants-overview.css";
 
 function Router() {
   const [location] = useLocation();
@@ -52,7 +62,14 @@ function Router() {
           <Route path={"/applications"} component={Applications} />
           <Route path={"/saved"} component={SavedGigs} />
           <Route path={"/notifications"} component={Notifications} />
-          <Route path={"/employer"}>{() => <ProtectedPlaceholder label="منطقة صاحب العمل" />}</Route>
+          <Route path={"/employer/new"} component={EmployerGigWizard} />
+          <Route path={"/employer/gigs/:gigId/applicants"} component={EmployerApplicants} />
+          <Route path={"/employer/applicants"} component={EmployerApplicantsOverview} />
+          <Route path={"/employer/gigs/:gigId/edit"} component={EmployerGigEditor} />
+          <Route path={"/employer/gigs"} component={EmployerGigs} />
+          <Route path={"/employer/profile"} component={EmployerProfile} />
+          <Route path={"/employer/notifications"} component={EmployerNotifications} />
+          <Route path={"/employer"} component={EmployerDashboard} />
           <Route path={"/admin"}>{() => <ProtectedPlaceholder label="منطقة الإدارة" />}</Route>
           <Route path={"/404"} component={NotFound} />
           <Route component={NotFound} />

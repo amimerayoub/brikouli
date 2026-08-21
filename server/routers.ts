@@ -3,7 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
-import { applicationListSchema, applicationSchema, jobSeekerGigQuerySchema, nearbyGigQuerySchema, savedGigSchema } from "./schemas/domain";
+import { applicationListSchema, applicationSchema, employerApplicationReviewSchema, employerBusinessProfileSchema, employerGigActionSchema, employerGigCreateSchema, employerGigListSchema, employerGigUpdateSchema, jobSeekerGigQuerySchema, nearbyGigQuerySchema, savedGigSchema } from "./schemas/domain";
 import { getCurrentProfile, updateCurrentProfile } from "./services/profiles";
 import { createGig, getJobSeekerGig, getNearbyGigs, listActiveGigs, listJobSeekerGigs } from "./services/gigs";
 import { applyToGig, listMyApplications } from "./services/applications";
@@ -11,6 +11,7 @@ import { listSavedGigIds, listSavedGigs, saveGig, unsaveGig } from "./services/f
 import { createRating } from "./services/ratings";
 import { createReport } from "./services/reports";
 import { searchMoroccanLocations } from "./services/locationSearch";
+import { cancelEmployerGig, createEmployerGig, deleteEmployerGig, getEmployerBusinessProfile, getEmployerDashboard, listEmployerApplicants, listEmployerGigs, listEmployerNotifications, reviewEmployerApplication, setEmployerGigPause, updateEmployerBusinessProfileSecure, updateEmployerGig } from "./services/employer";
 import { supabaseProcedure, supabaseRouter } from "./supabase/trpc";
 
 export const appRouter = router({
@@ -50,6 +51,27 @@ export const appRouter = router({
     applications: supabaseRouter({
       create: supabaseProcedure.input(applicationSchema).mutation(({ ctx, input }) => applyToGig(ctx.supabaseAccessToken!, input)),
       mine: supabaseProcedure.input(applicationListSchema).query(({ ctx, input }) => listMyApplications(ctx.supabaseAccessToken!, input)),
+    }),
+    employer: supabaseRouter({
+      dashboard: supabaseProcedure.query(({ ctx }) => getEmployerDashboard(ctx.supabaseAccessToken!)),
+      gigs: supabaseRouter({
+        list: supabaseProcedure.input(employerGigListSchema).query(({ ctx, input }) => listEmployerGigs(ctx.supabaseAccessToken!, input)),
+        create: supabaseProcedure.input(employerGigCreateSchema).mutation(({ ctx, input }) => createEmployerGig(ctx.supabaseAccessToken!, input)),
+        update: supabaseProcedure.input(employerGigUpdateSchema).mutation(({ ctx, input }) => updateEmployerGig(ctx.supabaseAccessToken!, input)),
+        pause: supabaseProcedure.input(employerGigActionSchema).mutation(({ ctx, input }) => setEmployerGigPause(ctx.supabaseAccessToken!, input, true)),
+        resume: supabaseProcedure.input(employerGigActionSchema).mutation(({ ctx, input }) => setEmployerGigPause(ctx.supabaseAccessToken!, input, false)),
+        cancel: supabaseProcedure.input(employerGigActionSchema).mutation(({ ctx, input }) => cancelEmployerGig(ctx.supabaseAccessToken!, input)),
+        delete: supabaseProcedure.input(employerGigActionSchema).mutation(({ ctx, input }) => deleteEmployerGig(ctx.supabaseAccessToken!, input)),
+      }),
+      applicants: supabaseRouter({
+        list: supabaseProcedure.input(employerGigActionSchema).query(({ ctx, input }) => listEmployerApplicants(ctx.supabaseAccessToken!, input)),
+        review: supabaseProcedure.input(employerApplicationReviewSchema).mutation(({ ctx, input }) => reviewEmployerApplication(ctx.supabaseAccessToken!, input)),
+      }),
+      profile: supabaseRouter({
+        me: supabaseProcedure.query(({ ctx }) => getEmployerBusinessProfile(ctx.supabaseAccessToken!)),
+        update: supabaseProcedure.input(employerBusinessProfileSchema).mutation(({ ctx, input }) => updateEmployerBusinessProfileSecure(ctx.supabaseAccessToken!, input)),
+      }),
+      notifications: supabaseProcedure.query(({ ctx }) => listEmployerNotifications(ctx.supabaseAccessToken!)),
     }),
     ratings: supabaseRouter({
       create: supabaseProcedure.input(z.unknown()).mutation(({ ctx, input }) => createRating(ctx.supabaseAccessToken!, input)),
