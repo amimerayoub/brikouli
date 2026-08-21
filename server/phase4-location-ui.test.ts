@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { locationStateFromError } from "../client/src/lib/maps/geolocation";
-import { defaultMapMode } from "../client/src/lib/maps/mode";
+import { locationStateFromError } from "../client/src/lib/map/geolocation";
+import { defaultMapMode } from "../client/src/lib/map/mode";
 
 describe("Phase 4 location and responsive map behavior", () => {
   it("keeps discovery available for denied and unavailable location states", () => {

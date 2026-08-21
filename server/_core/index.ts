@@ -11,7 +11,6 @@ import { serveStatic, setupVite } from "./vite";
 import { requireProtectedRoute } from "../middleware/routeProtection";
 import { registerSupabaseSessionRoutes } from "../routes/supabaseSession";
 import { registerAuthActionRoutes } from "../routes/authActions";
-import { registerManagedMapScriptRoute } from "../routes/managedMapScript";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -40,7 +39,6 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   registerAuthActionRoutes(app);
   registerSupabaseSessionRoutes(app);
-  registerManagedMapScriptRoute(app);
   app.use(requireProtectedRoute);
   registerStorageProxy(app);
   registerOAuthRoutes(app);

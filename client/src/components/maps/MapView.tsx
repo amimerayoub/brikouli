@@ -1,28 +1,74 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { MapPinned } from "lucide-react";
+import { useEffect, useRef } from "react";
+import Map, { Marker, NavigationControl, type MapRef } from "react-map-gl/maplibre";
+import "maplibre-gl/dist/maplibre-gl.css";
 import type { NearbyGig } from "@shared/brikouli.types";
-import { MapView as ManagedMapView } from "@/components/Map";
-import type { Coordinates } from "@/lib/maps/distance";
-import { createGigMarker } from "./GigMarker";
+import { DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM, OPENFREEMAP_STYLE_URL } from "@/lib/map/config";
+import type { Coordinates } from "@/lib/map/distance";
+import { GigMarker } from "./GigMarker";
 import { MapControls } from "./MapControls";
-import { createUserMarker } from "./UserMarker";
+import { UserMarker } from "./UserMarker";
 
-type MapMarker = google.maps.marker.AdvancedMarkerElement;
-type BrikouliMapViewProps = { center: Coordinates; userLocation: Coordinates | null; gigs: NearbyGig[]; selectedGigId: string | null; onSelect: (gig: NearbyGig) => void; onMapReady?: (map: google.maps.Map) => void; interactive?: boolean };
+type BrikouliMapViewProps = {
+  center: Coordinates;
+  userLocation: Coordinates | null;
+  gigs: NearbyGig[];
+  selectedGigId: string | null;
+  onSelect: (gig: NearbyGig) => void;
+};
 
-export function BrikouliMapView({ center, userLocation, gigs, selectedGigId, onSelect, onMapReady, interactive = false }: BrikouliMapViewProps) {
-  const mapRef = useRef<google.maps.Map | null>(null);
-  const markersRef = useRef<MapMarker[]>([]);
-  const userMarkerRef = useRef<MapMarker | null>(null);
-  const [ready, setReady] = useState(false);
-  const redraw = useCallback(() => { const map = mapRef.current; if (!map || !window.google?.maps) return; markersRef.current.forEach(marker => marker.map = null); markersRef.current = gigs.map(gig => createGigMarker(map, gig, () => onSelect(gig))).filter((marker): marker is MapMarker => Boolean(marker)); if (userMarkerRef.current) userMarkerRef.current.map = null; userMarkerRef.current = userLocation ? createUserMarker(map, userLocation) : null; }, [gigs, onSelect, userLocation]);
-  const handleReady = useCallback((map: google.maps.Map) => { mapRef.current = map; setReady(true); onMapReady?.(map); }, [onMapReady]);
-  useEffect(() => { if (interactive) redraw(); }, [interactive, redraw, ready]);
-  useEffect(() => { if (interactive && mapRef.current) mapRef.current.panTo({ lat: center.latitude, lng: center.longitude }); }, [center, interactive]);
-  useEffect(() => { const selected = gigs.find(gig => gig.id === selectedGigId); if (interactive && selected && mapRef.current && selected.latitude !== null && selected.longitude !== null) mapRef.current.panTo({ lat: selected.latitude, lng: selected.longitude }); }, [gigs, interactive, selectedGigId]);
+export function BrikouliMapView({ center, userLocation, gigs, selectedGigId, onSelect }: BrikouliMapViewProps) {
+  const mapRef = useRef<MapRef>(null);
 
-  if (!interactive) return <div className="brikouli-map map-deferred-state" role="status"><div><MapPinned size={30} /><p>خريطة الحيّ التفاعلية مؤجلة</p><small>يمكنك الاستمرار في استكشاف الفرص حسب النطاق، وسيُفعّل العرض الحي عند توصيل خدمة الخرائط.</small></div></div>;
+  useEffect(() => {
+    mapRef.current?.flyTo({
+      center: [center.longitude, center.latitude],
+      duration: 260,
+      essential: true,
+    });
+  }, [center]);
 
-  const map = mapRef.current;
-  return <div className="brikouli-map"><ManagedMapView className="brikouli-map-canvas" initialCenter={{ lat: center.latitude, lng: center.longitude }} initialZoom={13} onMapReady={handleReady} /><MapControls disabled={!ready} onLocate={() => userLocation && mapRef.current?.panTo({ lat: userLocation.latitude, lng: userLocation.longitude })} onZoomIn={() => map && map.setZoom((map.getZoom() ?? 13) + 1)} onZoomOut={() => map && map.setZoom((map.getZoom() ?? 13) - 1)} />{!ready && <div className="map-loading-overlay">جارٍ تحميل الخريطة…</div>}</div>;
+  return (
+    <div className="brikouli-map">
+      <Map
+        ref={mapRef}
+        initialViewState={{
+          longitude: DEFAULT_MAP_CENTER.longitude,
+          latitude: DEFAULT_MAP_CENTER.latitude,
+          zoom: DEFAULT_MAP_ZOOM,
+        }}
+        mapStyle={OPENFREEMAP_STYLE_URL}
+        dragRotate={false}
+        touchPitch={false}
+        onLoad={() => window.requestAnimationFrame(() => mapRef.current?.resize())}
+        onError={event => console.error("[Brikouli MapLibre]", event.error)}
+        style={{ width: "100%", height: "100%" }}
+        aria-label="خريطة الفرص القريبة"
+      >
+        <NavigationControl position="bottom-left" showCompass={false} />
+        <MapControls
+          onLocate={() =>
+            userLocation &&
+            mapRef.current?.flyTo({
+              center: [userLocation.longitude, userLocation.latitude],
+              zoom: 14,
+              duration: 260,
+              essential: true,
+            })
+          }
+        />
+        {userLocation && (
+          <Marker longitude={userLocation.longitude} latitude={userLocation.latitude} anchor="center">
+            <UserMarker />
+          </Marker>
+        )}
+        {gigs
+          .filter(gig => gig.latitude !== null && gig.longitude !== null)
+          .map(gig => (
+            <Marker key={gig.id} longitude={gig.longitude!} latitude={gig.latitude!} anchor="bottom">
+              <GigMarker gig={gig} selected={gig.id === selectedGigId} onSelect={() => onSelect(gig)} />
+            </Marker>
+          ))}
+      </Map>
+    </div>
+  );
 }

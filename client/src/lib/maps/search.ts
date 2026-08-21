@@ -1,3 +1,0 @@
-import type { Coordinates } from "./distance";
-export type LocationSearchResult = { label: string; coordinates: Coordinates };
-export function geocodeArabicLocation(query: string): Promise<LocationSearchResult[]> { if (!window.google?.maps || !query.trim()) return Promise.resolve([]); const geocoder = new window.google.maps.Geocoder(); return new Promise(resolve => geocoder.geocode({ address: query, region: "MA", language: "ar" }, (results, status) => { if (status !== "OK" || !results) return resolve([]); resolve(results.slice(0, 5).map(result => ({ label: result.formatted_address, coordinates: { latitude: result.geometry.location.lat(), longitude: result.geometry.location.lng() } }))); })); }

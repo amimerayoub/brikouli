@@ -168,6 +168,11 @@ export default defineConfig({
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
   },
+  optimizeDeps: {
+    // MapLibre resolves its Web Worker at runtime. Prebundling it can leave Vite
+    // pointing at a stale optimized worker module during development.
+    exclude: ["maplibre-gl"],
+  },
   server: {
     host: true,
     allowedHosts: [

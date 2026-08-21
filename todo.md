@@ -34,3 +34,13 @@
 - [x] Add a focused marker-style test for category and urgency rendering semantics without relying on the unavailable live map script.
 - [x] Attempt a server-mediated managed-map loader that keeps mapping credentials out of the browser bundle; document the unavailable upstream response and retain the fallback state.
 - [x] Replace the unavailable live-map loader with an explicit non-blocking deferred-map state until a mapping service is connected.
+- [x] Remove every Google Maps loader, server route, and managed-map dependency from the Brikouli codebase.
+- [x] Install MapLibre GL and react-map-gl, then configure the OpenFreeMap Liberty style without a map API key.
+- [x] Replace the reusable map, user marker, gig marker, controls, and marker-sheet integration with a live MapLibre implementation.
+- [x] Replace managed geocoding with a policy-conscious server-side Nominatim search and preserve Arabic location suggestions.
+- [x] Preserve mobile map/list and desktop split modes, live Supabase gigs, filters, geolocation, Haversine distance, accessibility, and motion.
+- [x] Add Phase 5 map/search/filter tests, visually verify map rendering without HTTP 403 errors, document the key-free configuration, and save the Phase 5 checkpoint.
+- [x] Add focused MapLibre interaction coverage for marker selection and map/list/split composition using a non-persistent test gig.
+- [x] Capture and review the post-migration desktop split Explore view, then rerun final verification and save the Phase 5 checkpoint.
+- [x] Add focused Phase 5 assertions for explicit location-search submission and radius/category/urgent/sort filter state updates.
+- [x] Record the desktop MapLibre screenshot review outcome and save the Phase 5 checkpoint.

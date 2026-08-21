@@ -1,2 +1,1 @@
-import type { Coordinates } from "@/lib/maps/distance";
-export function createUserMarker(map: google.maps.Map, position: Coordinates) { const content = document.createElement("span"); content.className = "map-user-marker"; content.setAttribute("aria-label", "موقعك الحالي"); return new google.maps.marker.AdvancedMarkerElement({ map, position: { lat: position.latitude, lng: position.longitude }, content, title: "موقعك الحالي" }); }
+export function UserMarker() { return <span className="map-user-marker" aria-label="موقعك الحالي" role="img" />; }
