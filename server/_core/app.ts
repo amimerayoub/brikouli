@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { registerStorageProxy } from "./storageProxy";
@@ -18,6 +19,10 @@ export function createBrikouliApp() {
   registerAuthActionRoutes(app);
   registerSupabaseSessionRoutes(app);
   app.use(requireProtectedRoute);
+  // Vercel includes the supplied public marketing images with the function.
+  // Serve known project files first; non-existent paths continue to the
+  // existing private Manus storage proxy without changing that data flow.
+  app.use("/manus-storage", express.static(path.resolve(process.cwd(), "manus-storage")));
   registerStorageProxy(app);
   registerOAuthRoutes(app);
   app.use(

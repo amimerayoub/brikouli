@@ -45,7 +45,7 @@ Add values in **Project Settings → Environment Variables** for both Production
 
 The primary email/password and phone flows already use Supabase and can run with the public Supabase values above. The shared unauthenticated fallback now routes safely to `/login` if Manus OAuth variables are absent. If Manus OAuth remains enabled, add the Vercel production and preview callback URL—`https://<deployment-domain>/api/oauth/callback`—to the OAuth provider’s permitted redirects.
 
-Private message media currently uses Manus Forge storage. Vercel can host the route, but cannot manufacture Manus-managed credentials or storage access. Either keep valid authorized server-side Forge access where permitted, or migrate that media adapter to a Vercel-compatible object-storage provider before declaring media uploads portable. The optional AI feature remains disabled by default and must not receive a browser key.
+The supplied public Brikouli branding and marketing images are included in the Vercel function bundle and served at `/media`, so they do not use the Manus proxy. Private message media still uses Manus Forge storage. Vercel can host the route, but cannot manufacture Manus-managed credentials or storage access. Either keep valid authorized server-side Forge access where permitted, or migrate that media adapter to a Vercel-compatible object-storage provider before declaring media uploads portable. The optional AI feature remains disabled by default and must not receive a browser key.
 
 ## First deployment and verification
 

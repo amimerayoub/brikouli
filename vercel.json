@@ -6,7 +6,10 @@
   "outputDirectory": "dist/public",
   "functions": {
     "api/index.ts": {
-      "includeFiles": "dist/public/**"
+      "includeFiles": [
+        "dist/public/**",
+        "manus-storage/**"
+      ]
     }
   },
   "rewrites": [

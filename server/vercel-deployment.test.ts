@@ -7,11 +7,11 @@ const read = (file: string) => readFileSync(resolve(root, file), "utf8");
 
 describe("Vercel deployment contract", () => {
   it("keeps the Vite build output and bundled API-directory Express function aligned", () => {
-    const config = JSON.parse(read("vercel.json")) as { framework?: string; buildCommand?: string; outputDirectory?: string; functions?: Record<string, { includeFiles?: string }> };
+    const config = JSON.parse(read("vercel.json")) as { framework?: string; buildCommand?: string; outputDirectory?: string; functions?: Record<string, { includeFiles?: string | string[] }> };
     expect(config.framework).toBe("vite");
     expect(config.buildCommand).toBe("pnpm run vercel-build");
     expect(config.outputDirectory).toBe("dist/public");
-    expect(config.functions?.["api/index.ts"]?.includeFiles).toBe("dist/public/**");
+    expect(config.functions?.["api/index.ts"]?.includeFiles).toEqual(["dist/public/**", "manus-storage/**"]);
     expect(config).toMatchObject({ rewrites: [{ source: "/(.*)", destination: "/api" }] });
     expect(read("api/index.ts")).toContain('require("./_brikouli.cjs")');
     expect(read("api/_brikouli-entry.ts")).toContain("export default app");

@@ -147,3 +147,4 @@
 - [ ] Test the configured Vercel integration with a read-only project/deployment query and summarize the returned data and available capabilities.
 - [x] Repair the Vercel build failure caused by the unmatched `server.ts` function pattern, validate the API-function route configuration, and push the fix for redeployment.
 - [ ] Repair the Vercel runtime `ERR_MODULE_NOT_FOUND` failure for `server/_core/index` in `api/index.js`, validate the function bundle, and redeploy the API recovery.
+- [ ] Replace visible `/manus-storage` Brikouli marketing-image paths with portable managed static URLs so Vercel does not send those requests through the unavailable Manus proxy.
