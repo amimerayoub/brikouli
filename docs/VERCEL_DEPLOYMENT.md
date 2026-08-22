@@ -17,6 +17,10 @@ Brikouli is **not** a static Vite-only site. The repository now contains `api/in
 
 The committed `vercel.json` owns these build settings. Do not replace the preset with a static-only rewrite to `index.html`; that would bypass the Express page-protection middleware on server-routed protected paths.
 
+## Resolved build-configuration issue
+
+The first Vercel attempt failed because `functions.server.ts` is not a supported function glob: Vercel applies `functions` configuration only to entries inside the root `/api` directory. The repaired configuration uses `api/index.ts`, configures `functions["api/index.ts"]`, and rewrites every visible path to `/api`; this follows Vercel’s documented Express pattern while preserving the original request URL. [1] [3]
+
 ## Required Vercel environment variables
 
 Add values in **Project Settings → Environment Variables** for both Production and Preview. Never prefix server secrets with `VITE_`; Vite includes `VITE_*` values in the browser build.
