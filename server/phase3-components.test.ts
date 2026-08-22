@@ -23,12 +23,15 @@ describe("Phase 3 rendered UI components", () => {
     expect(markup).toContain("لا توجد رسائل");
   });
 
-  it("renders all primary Arabic tabs in the fixed mobile navigation", () => {
-    const markup = renderToStaticMarkup(createElement(PhaseBottomNavigation, { activePath: "/explore" }));
-    expect(markup).toContain("الرئيسية");
-    expect(markup).toContain("استكشف");
-    expect(markup).toContain("نشر مهمة");
-    expect(markup).toContain("الرسائل");
-    expect(markup).toContain("حسابي");
+  it("keeps mobile navigation role-aware without exposing Job Seeker publish controls", () => {
+    const seekerMarkup = renderToStaticMarkup(createElement(PhaseBottomNavigation, { activePath: "/explore", role: "job_seeker" }));
+    const employerMarkup = renderToStaticMarkup(createElement(PhaseBottomNavigation, { activePath: "/employer", role: "employer" }));
+    expect(seekerMarkup).toContain("الرئيسية");
+    expect(seekerMarkup).toContain("استكشف");
+    expect(seekerMarkup).not.toContain("نشر مهمة");
+    expect(seekerMarkup).toContain("الرسائل");
+    expect(seekerMarkup).toContain("حسابي");
+    expect(employerMarkup).toContain("لوحة الأعمال");
+    expect(employerMarkup).toContain("نشر مهمة");
   });
 });

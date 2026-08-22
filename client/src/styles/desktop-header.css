@@ -1,79 +1,13 @@
-/* Premium desktop header only. The mobile AppShell remains display-contents and
-   continues to use the Phase 3 mobile-first rules without structural changes. */
-.phase-header-inner{display:contents}
+/* Role-aware desktop header. The compact mobile AppShell structure stays intact. */
+.phase-header-inner{display:contents}.desktop-header-only{display:none}
 
 @media (min-width:1024px){
-  .phase-header,.dark .phase-header{
-    height:72px;
-    padding:0;
-    border-bottom-color:rgba(20,83,45,.4);
-    background:rgba(4,30,22,.9);
-    backdrop-filter:blur(24px);
-  }
-
-  .phase-header-inner{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
-    align-items:center;
-    width:min(100%,1440px);
-    height:100%;
-    box-sizing:border-box;
-    margin-inline:auto;
-    padding-inline:32px;
-  }
-
-  .phase-brand{justify-self:start}
-  .phase-brand .brand-logo{transform:none;transform-origin:center}
-  .phase-brand .brand-logo>img{width:44px;height:44px}
-  .phase-header .phase-brand .text-ink{color:#f5fff7!important}
-
-  .phase-desktop-nav{
-    align-self:stretch;
-    justify-self:center;
-    gap:40px;
-  }
-
-  .phase-desktop-nav a{
-    position:relative;
-    display:grid;
-    height:100%;
-    align-items:center;
-    color:rgba(232,255,239,.68);
-    font-size:16px;
-    font-weight:600;
-    text-decoration:none;
-    transition:color 200ms ease;
-  }
-
-  .phase-desktop-nav a:hover,.phase-desktop-nav a:focus-visible,.phase-desktop-nav a.is-active{color:#fff}
-  .phase-desktop-nav a.is-active:after{
-    right:50%;
-    bottom:7px;
-    left:auto;
-    width:24px;
-    height:3px;
-    border-radius:999px;
-    background:#3bd36f;
-    transform:translateX(50%);
-    transition:width 200ms ease,background-color 200ms ease;
-  }
-
-  .phase-header-actions{justify-self:end;gap:8px;direction:ltr}
-  .phase-header-actions>button,.phase-header-actions .theme-toggle{
-    width:40px;
-    min-width:40px;
-    height:40px;
-    min-height:40px;
-    border-radius:999px;
-    color:#dff7e6;
-    transition:background-color 200ms ease,transform 160ms cubic-bezier(.23,1,.32,1),color 200ms ease;
-  }
-  .phase-header-actions>button:hover,.phase-header-actions .theme-toggle:hover{background:rgba(255,255,255,.1);color:#fff}
-  .phase-header-actions>button:active,.phase-header-actions .theme-toggle:active{transform:scale(.97)}
-  .phase-header-actions i{top:7px;right:7px;border-color:#041e16;background:#3bd36f}
-  .phase-header .header-menu{display:none!important}
+  .phase-header,.dark .phase-header{height:72px;padding:0;border-bottom-color:rgba(20,83,45,.4);background:rgba(4,30,22,.9);backdrop-filter:blur(24px)}
+  .phase-header-inner{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;width:min(100%,1440px);height:100%;box-sizing:border-box;margin-inline:auto;padding-inline:32px}
+  .phase-brand{justify-self:start}.phase-brand .brand-logo{transform:none;transform-origin:center}.phase-brand .brand-logo>img{width:40px;height:40px}.phase-header .phase-brand .text-ink{color:#f5fff7!important}
+  .phase-desktop-nav{align-self:stretch;justify-self:center;gap:40px}.phase-desktop-nav a{position:relative;display:grid;height:100%;align-items:center;color:rgba(232,255,239,.68);font-size:16px;font-weight:600;text-decoration:none;transition:color 200ms ease}.phase-desktop-nav a:hover,.phase-desktop-nav a:focus-visible,.phase-desktop-nav a.is-active{color:#fff}.phase-desktop-nav a.is-active:after{position:absolute;right:50%;bottom:7px;left:auto;width:24px;height:3px;border-radius:999px;background:#3bd36f;content:"";transform:translateX(50%);transition:width 200ms ease,background-color 200ms ease}
+  .phase-header-actions{justify-self:end;gap:16px;direction:ltr}.desktop-header-only{display:inline-flex}.phase-header-actions>button,.phase-header-actions .theme-toggle,.phase-header-action,.phase-profile-trigger{display:grid;width:40px;min-width:40px;height:40px;min-height:40px;place-items:center;border-radius:999px;color:#dff7e6;transition:background-color 200ms ease,transform 160ms cubic-bezier(.23,1,.32,1),color 200ms ease}.phase-header-action{position:relative;text-decoration:none}.phase-header-actions>button:hover,.phase-header-actions>button:focus-visible,.phase-header-actions .theme-toggle:hover,.phase-header-actions .theme-toggle:focus-visible,.phase-header-action:hover,.phase-header-action:focus-visible,.phase-profile-trigger:hover,.phase-profile-trigger:focus-visible{background:rgba(255,255,255,.1);color:#fff}.phase-header-actions>button:active,.phase-header-actions .theme-toggle:active,.phase-header-action:active,.phase-profile-trigger:active{transform:scale(.97)}.phase-header-actions i{position:absolute;top:3px;right:1px;display:grid;min-width:17px;height:17px;place-items:center;border:2px solid #041e16;border-radius:99px;background:#3bd36f;color:#062716;font-size:9px;font-style:normal;font-weight:900;line-height:1}.phase-header .header-menu{display:none!important}
+  .phase-profile-wrap{position:relative}.phase-profile-trigger{overflow:hidden;border:1px solid rgba(255,255,255,.17);background:rgba(255,255,255,.08);padding:0;font:inherit;font-weight:900}.phase-profile-trigger img{width:100%;height:100%;object-fit:cover}.phase-profile-trigger span{font-size:15px}.desktop-profile-menu{position:absolute;top:calc(100% + 12px);left:0;z-index:30;display:grid;min-width:210px;overflow:hidden;border:1px solid rgba(84,186,112,.25);border-radius:16px;background:rgba(11,47,33,.98);padding:7px;box-shadow:0 18px 40px rgba(0,0,0,.25);transform-origin:top left;animation:desktop-menu-in 180ms cubic-bezier(.23,1,.32,1)}.desktop-profile-menu a,.desktop-profile-menu button{display:flex;min-height:42px;align-items:center;gap:10px;border:0;border-radius:10px;background:transparent;padding:0 10px;color:#def8e5;font:inherit;font-size:13px;font-weight:750;text-align:right;text-decoration:none}.desktop-profile-menu a:hover,.desktop-profile-menu a:focus-visible,.desktop-profile-menu button:hover,.desktop-profile-menu button:focus-visible{background:rgba(255,255,255,.1);outline:none}.desktop-profile-menu button{color:#ffc7bc;cursor:pointer}
 }
-
-@media (prefers-reduced-motion:reduce){
-  .phase-desktop-nav a,.phase-desktop-nav a.is-active:after,.phase-header-actions>button,.phase-header-actions .theme-toggle{transition:none!important}
-}
+@keyframes desktop-menu-in{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media (prefers-reduced-motion:reduce){.phase-desktop-nav a,.phase-desktop-nav a.is-active:after,.phase-header-actions>button,.phase-header-actions .theme-toggle,.phase-header-action,.phase-profile-trigger{transition:none!important}.desktop-profile-menu{animation:none!important}}
