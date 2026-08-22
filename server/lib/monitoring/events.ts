@@ -1,0 +1,1 @@
+export const monitoringEvents = { searchExecuted: "search.executed", recommendationsViewed: "recommendations.viewed", notificationRead: "notification.read", settingsUpdated: "settings.updated" } as const;

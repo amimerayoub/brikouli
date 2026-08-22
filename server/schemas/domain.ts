@@ -59,3 +59,9 @@ export const adminSponsoredCreateSchema = z.object({ gigId: z.string().uuid(), s
 export const adminSponsoredActionSchema = z.object({ sponsoredId: z.string().uuid(), status: z.enum(adminSponsoredStatusValues) });
 export const adminSponsoredQuerySchema = adminPageSchema.extend({ status: z.enum(adminSponsoredStatusValues).optional() });
 export const adminAuditQuerySchema = adminPageSchema.extend({ query: z.string().trim().max(120).default(""), action: z.string().trim().max(120).optional(), actorId: z.string().uuid().optional(), from: z.string().datetime().optional(), to: z.string().datetime().optional() });
+export const smartSearchSchema = z.object({ query: z.string().trim().min(2, "اكتب حرفين على الأقل للبحث.").max(120), category: z.string().trim().min(2).max(80).optional(), urgentOnly: z.boolean().default(false), sort: z.enum(["newest", "highest_pay"]).default("newest"), limit: z.number().int().min(1).max(40).default(24) });
+export const recommendationSchema = z.object({ limit: z.number().int().min(1).max(20).default(8) });
+export const aiModerationSchema = gigModerationPreviewSchema;
+export const notificationListSchema = z.object({ limit: z.number().int().min(1).max(80).default(40), unreadOnly: z.boolean().default(false) });
+export const notificationReadSchema = z.object({ notificationIds: z.array(z.string().uuid()).max(80).default([]), all: z.boolean().default(false) }).refine(value => value.all || value.notificationIds.length > 0, { message: "حدد إشعاراً واحداً على الأقل." });
+export const preferencesSchema = z.object({ skills: z.array(z.string().trim().min(2).max(50)).max(20).default([]), availability: z.enum(["available", "part_time", "weekends", "flexible", "unavailable"]), preferredLanguage: z.enum(["ar", "fr"]), notificationsEnabled: z.boolean(), profileVisibility: z.enum(["members", "public"]) });

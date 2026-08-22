@@ -134,3 +134,10 @@
 - [x] Commit and push the current verified header, map, branding, and checklist refinements to the confirmed GitHub repository.
 - [x] Refine only the Job Seeker four-item mobile bottom navigation with equal touch targets, safe-area spacing, centered icon/label stacks, clear active state, and preserved Employer navigation, desktop/tablet behavior, backend, Supabase, routes, and APIs.
 - [x] Commit and push the latest verified Job Seeker mobile-navigation refinement to the confirmed GitHub repository.
+- [ ] Complete Phase 10 production optimization, independent AI/search foundations, notifications and settings improvements, monitoring preparation, security/performance review, SEO, launch documentation, and final verification within the existing architecture.
+- [x] Audit the Phase 10 baseline and document architecture decisions, current security-advisor findings, dependency boundaries, and external launch prerequisites.
+- [x] Add and apply the Phase 10 Supabase foundation migration for durable owner-scoped notifications, preference fields, privacy-preserving search telemetry, Realtime publication, event triggers, indexes, and RLS.
+- [ ] Complete independent server-only AI modules, deterministic recommendation scoring, Arabic smart-search expansion, and advisory moderation contracts with safe fallbacks and focused tests.
+- [ ] Replace derived notification surfaces with durable Realtime-backed notifications and add protected user preferences/settings/profile enrichment UI.
+- [ ] Add monitoring hooks, route-level performance/lazy-loading improvements, public SEO assets, optimized admin analytics, and final security hardening documentation.
+- [ ] Perform full Phase 10 validation, launch-readiness review, documentation, checkpoint, and delivery.

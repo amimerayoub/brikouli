@@ -31,6 +31,7 @@ import EmployerApplicants from "./pages/EmployerApplicants";
 import EmployerApplicantsOverview from "./pages/EmployerApplicantsOverview";
 import EmployerProfile from "./pages/EmployerProfile";
 import EmployerNotifications from "./pages/EmployerNotifications";
+import Settings from "./pages/Settings";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminGigs from "./pages/admin/AdminGigs";
@@ -53,6 +54,7 @@ import "./styles/job-seeker-details.css";
 import "./styles/job-seeker-activity.css";
 import "./styles/job-seeker-profile.css";
 import "./styles/job-seeker-notifications.css";
+import "./styles/phase10.css";
 import "./styles/employer.css";
 import "./styles/employer-applicants-overview.css";
 import "./styles/messaging.css";
@@ -84,6 +86,7 @@ function Router() {
           <Route path={"/applications"} component={Applications} />
           <Route path={"/saved"} component={SavedGigs} />
           <Route path={"/notifications"} component={Notifications} />
+          <Route path={"/settings"} component={Settings} />
           <Route path={"/employer/new"} component={EmployerGigWizard} />
           <Route path={"/employer/gigs/:gigId/applicants"} component={EmployerApplicants} />
           <Route path={"/employer/applicants"} component={EmployerApplicantsOverview} />

@@ -16,6 +16,12 @@ import { supabaseProcedure, supabaseRouter } from "./supabase/trpc";
 import { supabaseAdminProcedure } from "./supabase/trpc";
 import { adminAuditQuerySchema, adminBulkGigActionSchema, adminGigActionSchema, adminGigsQuerySchema, adminReportActionSchema, adminReportsQuerySchema, adminSponsoredActionSchema, adminSponsoredCreateSchema, adminSponsoredQuerySchema, adminUserDetailSchema, adminUsersQuerySchema, adminUserStatusSchema } from "./schemas/domain";
 import { bulkApproveAdminGigs, createAdminSponsored, getAdminAnalytics, getAdminDashboard, getAdminSecurity, getAdminUser, listAdminAudit, listAdminGigs, listAdminReports, listAdminSponsored, listAdminUsers, moderateAdminGig, reviewAdminReport, setAdminSponsoredStatus, setAdminUserStatus } from "./services/admin";
+import { smartSearchSchema, recommendationSchema, aiModerationSchema, notificationListSchema, notificationReadSchema, preferencesSchema } from "./schemas/domain";
+import { smartSearchGigs } from "./services/smartSearch";
+import { getRecommendedGigs } from "./lib/ai/recommendations";
+import { analyzeGigSafety } from "./lib/ai/moderation";
+import { listNotifications, markNotificationsRead } from "./services/notifications";
+import { getPreferences, updatePreferences } from "./services/settings";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -51,6 +57,11 @@ export const appRouter = router({
     locations: supabaseRouter({
       search: publicProcedure.input(z.unknown()).mutation(({ input }) => searchMoroccanLocations(input)),
     }),
+    search: supabaseRouter({ smart: supabaseProcedure.input(smartSearchSchema).query(({ ctx, input }) => smartSearchGigs(ctx.supabaseAccessToken!, input)) }),
+    recommendations: supabaseRouter({ list: supabaseProcedure.input(recommendationSchema).query(({ ctx, input }) => getRecommendedGigs(ctx.supabaseAccessToken!, input.limit)) }),
+    ai: supabaseRouter({ moderateGig: supabaseProcedure.input(aiModerationSchema).mutation(({ input }) => analyzeGigSafety(input)) }),
+    notifications: supabaseRouter({ list: supabaseProcedure.input(notificationListSchema).query(({ ctx, input }) => listNotifications(ctx.supabaseAccessToken!, input)), markRead: supabaseProcedure.input(notificationReadSchema).mutation(({ ctx, input }) => markNotificationsRead(ctx.supabaseAccessToken!, input)) }),
+    settings: supabaseRouter({ get: supabaseProcedure.query(({ ctx }) => getPreferences(ctx.supabaseAccessToken!)), update: supabaseProcedure.input(preferencesSchema).mutation(({ ctx, input }) => updatePreferences(ctx.supabaseAccessToken!, input)) }),
     applications: supabaseRouter({
       create: supabaseProcedure.input(applicationSchema).mutation(({ ctx, input }) => applyToGig(ctx.supabaseAccessToken!, input)),
       mine: supabaseProcedure.input(applicationListSchema).query(({ ctx, input }) => listMyApplications(ctx.supabaseAccessToken!, input)),
