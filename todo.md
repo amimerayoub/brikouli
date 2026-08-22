@@ -148,3 +148,5 @@
 - [x] Repair the Vercel build failure caused by the unmatched `server.ts` function pattern, validate the API-function route configuration, and push the fix for redeployment.
 - [x] Repair the Vercel runtime `ERR_MODULE_NOT_FOUND` failure for `server/_core/index` in `api/index.js`, validate the function bundle, and redeploy the API recovery.
 - [x] Replace visible `/manus-storage` Brikouli marketing-image paths with portable managed static URLs so Vercel does not send those requests through the unavailable Manus proxy.
+- [x] Investigate the remaining Vercel production issue reported after the runtime recovery, apply a targeted repair if evidence identifies one, validate it live, and push the final correction to GitHub main.
+- [x] Restore the stable Vercel domain when it shows «تعذر الوصول إلى موقعك حالياً», verify a real public HTTP response, and push any required correction to GitHub main.
