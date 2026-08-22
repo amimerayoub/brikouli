@@ -1,10 +1,10 @@
-import { createBrikouliApp } from "../server/_core/index";
-import { serveStatic } from "../server/_core/vite";
+import { createRequire } from "node:module";
+import type { Express } from "express";
 
-// Vercel discovers functions under /api. The catch-all rewrite in vercel.json
-// preserves the visible request path while this single Express app handles
-// tRPC, auth, protected page checks, static assets, and SPA fallback.
-const app = createBrikouliApp();
-serveStatic(app);
+// Vercel discovers this API route. Its app implementation is a single CommonJS
+// bundle generated before function tracing, which preserves Express dependency
+// loading while avoiding source-only module resolution under /var/task.
+const require = createRequire(import.meta.url);
+const app = require("./_brikouli.cjs") as Express;
 
 export default app;

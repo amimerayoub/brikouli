@@ -1,17 +1,11 @@
 import "dotenv/config";
-import express from "express";
 import { createServer } from "http";
 import net from "net";
-import { createExpressMiddleware } from "@trpc/server/adapters/express";
-import { registerOAuthRoutes } from "./oauth";
-import { registerStorageProxy } from "./storageProxy";
-import { appRouter } from "../routers";
-import { createContext } from "./context";
-import { serveStatic, setupVite } from "./vite";
-import { requireProtectedRoute } from "../middleware/routeProtection";
-import { registerSupabaseSessionRoutes } from "../routes/supabaseSession";
-import { registerAuthActionRoutes } from "../routes/authActions";
-import { applySecurityHeaders } from "../middleware/securityHeaders";
+import { createBrikouliApp } from "./app";
+import { serveStatic } from "./static";
+import { setupVite } from "./vite";
+
+export { createBrikouliApp } from "./app";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -30,29 +24,6 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
     }
   }
   throw new Error(`No available port found starting from ${startPort}`);
-}
-
-export function createBrikouliApp() {
-  const app = express();
-  app.disable("x-powered-by");
-  app.use(applySecurityHeaders);
-  // Configure body parser with larger size limit for file uploads
-  app.use(express.json({ limit: "50mb" }));
-  app.use(express.urlencoded({ limit: "50mb", extended: true }));
-  registerAuthActionRoutes(app);
-  registerSupabaseSessionRoutes(app);
-  app.use(requireProtectedRoute);
-  registerStorageProxy(app);
-  registerOAuthRoutes(app);
-  // tRPC API
-  app.use(
-    "/api/trpc",
-    createExpressMiddleware({
-      router: appRouter,
-      createContext,
-    })
-  );
-  return app;
 }
 
 export async function startServer() {
@@ -77,7 +48,6 @@ export async function startServer() {
   });
 }
 
-// Vercel imports this module through the root server.ts default export. Its
-// runtime owns the listener, while local development and the managed host keep
-// the existing explicit listener model.
+// The Vercel bundle imports app.ts directly. Local development and the managed
+// host retain this explicit listener model.
 if (!process.env.VERCEL) startServer().catch(console.error);

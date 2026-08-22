@@ -21,6 +21,10 @@ The committed `vercel.json` owns these build settings. Do not replace the preset
 
 The first Vercel attempt failed because `functions.server.ts` is not a supported function glob: Vercel applies `functions` configuration only to entries inside the root `/api` directory. The repaired configuration uses `api/index.ts`, configures `functions["api/index.ts"]`, and rewrites every visible path to `/api`; this follows Vercel’s documented Express pattern while preserving the original request URL. [1] [3]
 
+## Resolved runtime module-resolution issue
+
+The subsequent runtime log showed `ERR_MODULE_NOT_FOUND` for `/var/task/server/_core/index` because the generated Vercel handler tried to load the TypeScript server source after deployment. The Vercel build now generates `api/_brikouli.cjs` from `api/_brikouli-entry.ts` using esbuild, and `api/index.ts` loads that single CommonJS app bundle with Node’s `createRequire`. The generated bundle is ignored by Git and rebuilt before Vercel traces the function, so the handler does not rely on `server/_core` source modules at runtime. Vercel’s function file-tracing guidance describes this requirement to include runtime code and dependencies in the function bundle. [4]
+
 ## Required Vercel environment variables
 
 Add values in **Project Settings → Environment Variables** for both Production and Preview. Never prefix server secrets with `VITE_`; Vite includes `VITE_*` values in the browser build.
@@ -70,3 +74,7 @@ Vercel Functions scale server work on demand and are request-scoped; do not use 
 [1] [Vercel: Express on Vercel](https://vercel.com/docs/frameworks/backend/express)
 
 [2] [Vercel: Vite on Vercel](https://vercel.com/docs/frameworks/frontend/vite)
+
+[3] [Vercel: Static Configuration with vercel.json](https://vercel.com/docs/project-configuration/vercel-json)
+
+[4] [Vercel: How can I use files in Vercel Functions?](https://vercel.com/kb/guide/how-can-i-use-files-in-serverless-functions)
