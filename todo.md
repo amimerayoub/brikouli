@@ -128,3 +128,4 @@
 - [x] Refactor only the desktop Brikouli header at 1024px and above with a centered RTL navigation, aligned logo/action controls, sticky blurred treatment, and no changes to the compact mobile header or backend behavior.
 - [x] Repair only the Explore MapLibre rendering path: live public style with fallback, resilient container sizing/resizing, loading/error/retry feedback, and preserved controls/markers across mobile and desktop without changing Supabase, auth, backend, or routes.
 - [x] Remove only the visible «خريطة الحي» Explore map-card label and its unused styling while preserving the rounded MapLibre container, controls, markers, geolocation, RTL layout, and all integrations.
+- [x] Prepare an optimized version of the supplied Brikouli logo and integrate it at an appropriately reduced responsive size without changing navigation, auth, backend, or routing behavior.
