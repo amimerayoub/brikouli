@@ -53,6 +53,8 @@ Private message media currently uses Manus Forge storage. Vercel can host the ro
 
 Vercel Functions scale server work on demand and are request-scoped; do not use in-memory state for authorization, notifications or conversations. Brikouli already persists these concerns in Supabase. [1]
 
+> **Production URL:** Use the stable project alias `https://brikouli.vercel.app/` for launch and acceptance testing. Vercel may remove individual immutable deployment URLs when Deployment Retention is enabled; a deleted immutable URL can return `410: GONE` even though the stable project alias continues to serve the active production deployment.
+
 ## Known portability prerequisites
 
 | Capability | Status on Vercel before extra work |
