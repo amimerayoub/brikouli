@@ -132,3 +132,4 @@
 - [x] Refactor only the desktop header into server-authenticated role-aware Job Seeker/Employer navigation with centered links, Messages unread access, an accessible profile menu, and preserved mobile navigation, Supabase, backend, and route architecture (duplicate tracking entry closed after completion).
 - [x] Refactor only the desktop header into server-authenticated role-aware Job Seeker/Employer navigation with centered links, Messages unread access, an accessible profile menu, and preserved mobile navigation, Supabase, backend, and route architecture.
 - [x] Commit and push the current verified header, map, branding, and checklist refinements to the confirmed GitHub repository.
+- [x] Refine only the Job Seeker four-item mobile bottom navigation with equal touch targets, safe-area spacing, centered icon/label stacks, clear active state, and preserved Employer navigation, desktop/tablet behavior, backend, Supabase, routes, and APIs.

@@ -1,0 +1,16 @@
+/* Job Seeker-only mobile navigation. Employer navigation intentionally retains
+   its existing raised publish action and desktop/tablet headers remain unchanged. */
+@media (max-width:699px){
+  .phase-bottom-nav.is-job-seeker{display:flex;align-items:stretch;justify-content:space-between;gap:0;min-height:80px;height:calc(80px + env(safe-area-inset-bottom));box-sizing:border-box;padding:10px 12px max(10px,env(safe-area-inset-bottom));border:0;border-radius:28px 28px 0 0;background:#fff;box-shadow:0 -8px 24px rgba(15,55,33,.14);direction:rtl}
+  .phase-bottom-nav.is-job-seeker a{display:flex;min-width:0;min-height:48px;flex:1 1 0;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#64748b;text-align:center;transition:color 200ms ease,transform 200ms ease}
+  .phase-bottom-nav.is-job-seeker a>span{display:grid;width:24px;height:24px;place-items:center;transition:transform 200ms ease}
+  .phase-bottom-nav.is-job-seeker a>span svg{width:24px;height:24px}
+  .phase-bottom-nav.is-job-seeker a small{max-width:100%;overflow:hidden;color:currentColor;font-size:12px;font-weight:500;line-height:14px;white-space:nowrap}
+  .phase-bottom-nav.is-job-seeker a.is-active{color:#16a34a}
+  .phase-bottom-nav.is-job-seeker a.is-active>span{transform:scale(1.08)}
+  .phase-bottom-nav.is-job-seeker a.is-active:not(.is-raised):after{top:4px;width:18px;height:4px;border-radius:999px;background:#16a34a;box-shadow:0 0 10px rgba(22,163,74,.6)}
+  .phase-bottom-nav.is-job-seeker a:hover{color:#16a34a}
+  .phase-bottom-nav.is-job-seeker a:active{transform:scale(.96)}
+  .phase-bottom-nav.is-job-seeker a:focus-visible{outline:2px solid #16a34a;outline-offset:-2px;border-radius:14px}
+}
+@media (prefers-reduced-motion:reduce){.phase-bottom-nav.is-job-seeker a,.phase-bottom-nav.is-job-seeker a>span{transition:none!important}}

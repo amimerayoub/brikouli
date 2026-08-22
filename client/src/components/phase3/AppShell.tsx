@@ -62,7 +62,8 @@ function mobileNavigationFor(role: UserRole | undefined) {
 }
 
 export function PhaseBottomNavigation({ activePath, role }: { activePath: string; role?: UserRole }) {
-  return <nav className="phase-bottom-nav" aria-label="التنقل الرئيسي">{mobileNavigationFor(role).map(({ label, href, icon: Icon, raised }) => <Link key={href} href={href} className={`${isCurrentPath(activePath, href) ? "is-active" : ""} ${raised ? "is-raised" : ""}`}><span>{raised ? <span className="nav-plus"><Plus size={21} /></span> : <Icon size={20} />}</span><small>{label}</small></Link>)}</nav>;
+  const navigationClass = `phase-bottom-nav ${role === "employer" ? "is-employer" : "is-job-seeker"}`;
+  return <nav className={navigationClass} aria-label="التنقل الرئيسي">{mobileNavigationFor(role).map(({ label, href, icon: Icon, raised }) => <Link key={href} href={href} className={`${isCurrentPath(activePath, href) ? "is-active" : ""} ${raised ? "is-raised" : ""}`}><span>{raised ? <span className="nav-plus"><Plus size={21} /></span> : <Icon size={20} />}</span><small>{label}</small></Link>)}</nav>;
 }
 
 function ProfileMenu({ profile, onClose, onLogout }: { profile: BrikouliProfile; onClose: () => void; onLogout: () => void }) {
