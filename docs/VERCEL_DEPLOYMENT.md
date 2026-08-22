@@ -2,7 +2,7 @@
 
 ## Deployment model
 
-Brikouli is **not** a static Vite-only site. The repository now contains a root `server.ts` that exports the existing Express application for Vercel’s Node.js runtime, alongside the Vite client output. This preserves the tRPC API, email/password action routes, OAuth callback route, session-cookie endpoints, headers and route-protection middleware. Vercel treats an exported Express application as a Function, while Vite produces optimized public assets. [1] [2]
+Brikouli is **not** a static Vite-only site. The repository now contains `api/index.ts`, a supported Vercel API-directory Express entrypoint, alongside the Vite client output. The catch-all rewrite preserves the visible request path while the Express app handles tRPC, email/password action routes, OAuth callback, session-cookie endpoints, headers, protected page checks, static assets, and SPA fallback. Vercel documents the `/api` function directory and all-request rewrite pattern for Express applications. [1] [2]
 
 | Vercel Import field | Use this value |
 | --- | --- |

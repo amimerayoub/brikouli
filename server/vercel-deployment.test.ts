@@ -6,13 +6,14 @@ const root = resolve(import.meta.dirname, "..");
 const read = (file: string) => readFileSync(resolve(root, file), "utf8");
 
 describe("Vercel deployment contract", () => {
-  it("keeps the Vite build output and root Express function aligned", () => {
+  it("keeps the Vite build output and API-directory Express function aligned", () => {
     const config = JSON.parse(read("vercel.json")) as { framework?: string; buildCommand?: string; outputDirectory?: string; functions?: Record<string, { includeFiles?: string }> };
     expect(config.framework).toBe("vite");
     expect(config.buildCommand).toBe("pnpm run vercel-build");
     expect(config.outputDirectory).toBe("dist/public");
-    expect(config.functions?.["server.ts"]?.includeFiles).toBe("dist/public/**");
-    expect(read("server.ts")).toContain("export default app");
+    expect(config.functions?.["api/index.ts"]?.includeFiles).toBe("dist/public/**");
+    expect(config).toMatchObject({ rewrites: [{ source: "/(.*)", destination: "/api" }] });
+    expect(read("api/index.ts")).toContain("export default app");
   });
 
   it("keeps unauthenticated recovery on the local login page when Manus OAuth configuration is absent", () => {

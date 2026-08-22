@@ -5,8 +5,14 @@
   "buildCommand": "pnpm run vercel-build",
   "outputDirectory": "dist/public",
   "functions": {
-    "server.ts": {
+    "api/index.ts": {
       "includeFiles": "dist/public/**"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api"
+    }
+  ]
 }
