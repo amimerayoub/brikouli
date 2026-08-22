@@ -143,3 +143,4 @@
 - [x] Perform full Phase 10 validation, launch-readiness review, documentation, checkpoint, and delivery.
 - [x] Apply the post-advisor Phase 10 foreign-key index migration and retain low-traffic unused-index observations for later production review.
 - [x] Commit and push the verified Phase 10 source, documentation, and Supabase migration records to the confirmed GitHub repository.
+- [x] Prepare and document a Vercel-compatible deployment configuration for the existing Vite + Express + tRPC application without weakening its server-side security boundaries.

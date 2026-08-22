@@ -32,10 +32,9 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
   throw new Error(`No available port found starting from ${startPort}`);
 }
 
-async function startServer() {
+export function createBrikouliApp() {
   const app = express();
   app.disable("x-powered-by");
-  const server = createServer(app);
   app.use(applySecurityHeaders);
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
@@ -53,6 +52,12 @@ async function startServer() {
       createContext,
     })
   );
+  return app;
+}
+
+export async function startServer() {
+  const app = createBrikouliApp();
+  const server = createServer(app);
   // development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
@@ -72,4 +77,7 @@ async function startServer() {
   });
 }
 
-startServer().catch(console.error);
+// Vercel imports this module through the root server.ts default export. Its
+// runtime owns the listener, while local development and the managed host keep
+// the existing explicit listener model.
+if (!process.env.VERCEL) startServer().catch(console.error);

@@ -15,6 +15,17 @@ export { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 export const startLogin = () => {
   const oauthPortalUrl = import.meta.env.VITE_OAUTH_PORTAL_URL;
   const appId = import.meta.env.VITE_APP_ID;
+
+  // Email/password authentication is served locally through Supabase. When
+  // this app is deployed outside the managed Manus OAuth environment, keep
+  // unauthenticated recovery on that portable flow instead of constructing an
+  // invalid OAuth URL with missing variables.
+  if (!oauthPortalUrl || !appId) {
+    const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    window.location.assign(`/login?next=${encodeURIComponent(currentPath)}`);
+    return;
+  }
+
   const redirectUri = `${window.location.origin}/api/oauth/callback`;
 
   const nonce = crypto.randomUUID();
