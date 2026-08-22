@@ -14,16 +14,16 @@ describe("Job Seeker activity screens", () => {
     expect(saved).toContain("NoSavedGigs");
   });
 
-  it("derives non-realtime notification cards from real application activity and exposes a registered route", () => {
+  it("uses persisted notification cards and exposes a registered route", () => {
     const app = readFileSync(new URL("../client/src/App.tsx", import.meta.url), "utf8");
     const notifications = readFileSync(new URL("../client/src/pages/Notifications.tsx", import.meta.url), "utf8");
     expect(app).toContain('path={"/notifications"}');
-    expect(notifications).toContain("trpc.brikouli.applications.mine.useQuery");
+    expect(notifications).toContain("trpc.brikouli.notifications.list.useQuery");
     expect(notifications).toContain("اليوم");
-    expect(notifications).toContain("markAllRead");
-    expect(notifications).toContain("applications.isLoading");
+    expect(notifications).toContain("all: true, notificationIds: []");
+    expect(notifications).toContain("notifications.isLoading");
     expect(notifications).toContain("JobSeekerCardSkeleton");
-    expect(notifications).not.toContain("WebSocket");
+    expect(notifications).toContain("postgres_changes");
   });
 
   it("uses live profile, saved-gig, and application data in the editable profile activity summary", () => {

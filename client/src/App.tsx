@@ -5,6 +5,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import { useLocation } from "wouter";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { lazy, Suspense } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -13,7 +14,6 @@ import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import VerifyOtp from "./pages/auth/VerifyOtp";
 import ProtectedPlaceholder from "./pages/auth/ProtectedPlaceholder";
-import Explore from "./pages/Explore";
 import JobDetails from "./pages/JobDetails";
 import Profile from "./pages/Profile";
 import Messages from "./pages/Messages";
@@ -32,15 +32,6 @@ import EmployerApplicantsOverview from "./pages/EmployerApplicantsOverview";
 import EmployerProfile from "./pages/EmployerProfile";
 import EmployerNotifications from "./pages/EmployerNotifications";
 import Settings from "./pages/Settings";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminUsers from "./pages/admin/AdminUsers";
-import AdminGigs from "./pages/admin/AdminGigs";
-import AdminModeration from "./pages/admin/AdminModeration";
-import AdminReports from "./pages/admin/AdminReports";
-import AdminSponsored from "./pages/admin/AdminSponsored";
-import AdminAnalytics from "./pages/admin/AdminAnalytics";
-import AdminAuditLogs from "./pages/admin/AdminAuditLogs";
-import AdminSecurity from "./pages/admin/AdminSecurity";
 import "./styles/phase3.css";
 import "./styles/phase3-overrides.css";
 import "./styles/phase4.css";
@@ -63,13 +54,24 @@ import "./styles/trust.css";
 import "./styles/admin.css";
 import "./styles/admin-data.css";
 
+const Explore = lazy(() => import("./pages/Explore"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
+const AdminGigs = lazy(() => import("./pages/admin/AdminGigs"));
+const AdminModeration = lazy(() => import("./pages/admin/AdminModeration"));
+const AdminReports = lazy(() => import("./pages/admin/AdminReports"));
+const AdminSponsored = lazy(() => import("./pages/admin/AdminSponsored"));
+const AdminAnalytics = lazy(() => import("./pages/admin/AdminAnalytics"));
+const AdminAuditLogs = lazy(() => import("./pages/admin/AdminAuditLogs"));
+const AdminSecurity = lazy(() => import("./pages/admin/AdminSecurity"));
+
 function Router() {
   const [location] = useLocation();
   const reduceMotion = useReducedMotion();
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div key={location} initial={reduceMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={reduceMotion ? undefined : { opacity: 0, y: -5 }} transition={{ duration: reduceMotion ? 0 : 0.22, ease: [0.23, 1, 0.32, 1] }}>
-        <Switch>
+        <Suspense fallback={<main className="route-loading" aria-live="polite">جارٍ تجهيز الصفحة…</main>}><Switch>
           <Route path={"/"} component={Home} />
           <Route path={"/explore"} component={Explore} />
           <Route path={"/jobs/:jobId"} component={JobDetails} />
@@ -106,7 +108,7 @@ function Router() {
           <Route path={"/admin"} component={AdminDashboard} />
           <Route path={"/404"} component={NotFound} />
           <Route component={NotFound} />
-        </Switch>
+        </Switch></Suspense>
       </motion.div>
     </AnimatePresence>
   );

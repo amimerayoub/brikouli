@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /settings
+Disallow: /messages
+Disallow: /applications
+Disallow: /saved
+Disallow: /notifications
+Disallow: /employer
+
+Sitemap: https://brikouli-gyuchxhl.manus.space/sitemap.xml
