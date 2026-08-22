@@ -3,7 +3,6 @@
    from the map panel; it leaves the rest of the Explore UI unchanged. */
 .map-workspace{min-height:420px}
 .map-panel,.map-paper-panel{min-height:420px;border-radius:24px!important;overflow:hidden}
-.map-paper-panel:before{transform:none!important}
 .brikouli-map{height:max(420px,55svh);min-height:420px;background:#eaf3ec}
 .brikouli-map .maplibregl-map,.brikouli-map .maplibregl-canvas-container,.brikouli-map canvas{width:100%!important;height:100%!important}
 .map-loading-overlay,.map-error-overlay{z-index:8;gap:10px;padding:20px;text-align:center}

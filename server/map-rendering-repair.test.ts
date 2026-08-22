@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 const config = readFileSync(new URL("../client/src/lib/map/config.ts", import.meta.url), "utf8");
 const view = readFileSync(new URL("../client/src/components/maps/MapView.tsx", import.meta.url), "utf8");
 const styles = readFileSync(new URL("../client/src/styles/map-render-fix.css", import.meta.url), "utf8");
+const phaseFiveStyles = readFileSync(new URL("../client/src/styles/phase5.css", import.meta.url), "utf8");
 
 describe("Explore MapLibre rendering repair", () => {
   it("retains the public OpenFreeMap primary style while providing a resilient raster fallback and responsive viewport", () => {
@@ -19,5 +20,7 @@ describe("Explore MapLibre rendering repair", () => {
     expect(styles).toContain("min-height:420px");
     expect(styles).toContain("min-height:600px");
     expect(styles).toContain("border-radius:24px");
+    expect(phaseFiveStyles).not.toContain("خريطة الحي");
+    expect(phaseFiveStyles).not.toContain(".map-paper-panel:before");
   });
 });

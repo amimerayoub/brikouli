@@ -127,3 +127,4 @@
 - [x] Diagnose and resolve the reported application-submission failure: restore authenticated execution for public RLS policy helpers, validate the live policy path without inserting data, and cover the safe authorization response.
 - [x] Refactor only the desktop Brikouli header at 1024px and above with a centered RTL navigation, aligned logo/action controls, sticky blurred treatment, and no changes to the compact mobile header or backend behavior.
 - [x] Repair only the Explore MapLibre rendering path: live public style with fallback, resilient container sizing/resizing, loading/error/retry feedback, and preserved controls/markers across mobile and desktop without changing Supabase, auth, backend, or routes.
+- [x] Remove only the visible «خريطة الحي» Explore map-card label and its unused styling while preserving the rounded MapLibre container, controls, markers, geolocation, RTL layout, and all integrations.
